@@ -1,4 +1,5 @@
 mod endpoints;
+mod middlewares;
 
 use std::{net::SocketAddr, str::FromStr};
 
@@ -27,7 +28,11 @@ async fn main() {
 
     let state = AppState { pool };
 
-    let app = Router::new().merge(users::router()).with_state(state);
+    let app = Router::new()
+        .merge(users::router())
+        .merge(todos::router())
+        .merge(secrets::router())
+        .with_state(state);
 
     let address = SocketAddr::from_str(&address).expect("invalid address");
     println!("Listen to {}", address);
