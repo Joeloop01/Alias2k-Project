@@ -1,0 +1,66 @@
+.container {
+    max-width: 1140px;
+    width: 100%;
+    margin: auto;
+}
+
+.card-wrap {
+    width: 400px;
+    margin: 90px auto;
+    background: #e3e3e3;
+    position: relative;
+    padding: 30px;
+    border-radius: 5px;
+    border-top: 40px solid #da4e4e;
+    font-family: 'Raleway', sans-serif;
+}
+
+.profile_pic-wrap {
+    width: 150px;
+    height: 150px;
+    background: #e3e3e3;
+    top: 0;
+    left: 44.5%;
+    padding: 3px;
+    position: absolute;
+    margin-left: -50px;
+    top: -95px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile_pic-wrap img {
+    border-radius: 50%;
+}
+
+.info-wrap {
+    text-align: center;
+}
+
+.user-name {
+    text-align: center;
+    margin: top 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+th {
+    background-color: #da4e4e;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #da4e4e;
+}

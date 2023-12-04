@@ -1,0 +1,49 @@
+use axum::extract::{State, TypedHeader};
+use axum::http::{Request, StatusCode};
+use axum::middleware::Next;
+use axum::response::{IntoResponse, Response};
+use chrono::NaiveDateTime;
+use headers::authorization::Bearer;
+use headers::Authorization;
+
+use crate::AppState;
+
+#[derive(serde::Serialize)]
+pub struct Secret {
+    id: String,
+    secret: String,
+    description: String,
+    expired_at: Option<NaiveDateTime>,
+}
+
+pub async fn authentication<B>(
+    State(state): State<AppState>,
+    auth: TypedHeader<Authorization<Bearer>>,
+    request: Request<B>,
+    next: Next<B>,
+) -> Response {
+    let token: &str = auth.token();
+    if token.is_empty() {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    if !token.contains(':') {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    let data: Vec<&str> = token.split(':').collect();
+    if data[0].is_empty() || data[1].is_empty() {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    let secret = sqlx::query_as!(
+        Secret,
+        "SELECT * FROM secret WHERE id = ? AND secret = ? AND (expired_at IS NULL OR CURDATE() < expired_at)",
+        data[0],
+        data[1]
+    )
+    .fetch_optional(&state.pool)
+    .await
+    .expect("db error");
+    if secret.is_none() {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    next.run(request).await
+}
