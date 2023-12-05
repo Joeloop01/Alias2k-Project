@@ -18,7 +18,7 @@ export type NewTodo = {
 
 const headers = {
     "Content-Type": "application/json",
-    'Authorization': 'Bearer e5f28e63-77de-11ee-86fe-38ca84c6d8be:eea8f3274225bdbce6c1dc3010f6dc16f2cf6aaae8ec7d990ad83d4dbadbb7890a3b31d981d465231ec322d6c5430442798b2536fee5729b1950694f7179e64f'
+    'Authorization': 'Bearer 9ebc34c3-935a-11ee-aed3-38ca84c6d8be:2a98d9f1d0fb8388a40b33ccdf5abbb08fca04fc0d91f74ebc6ab27b23abfcc51b5f7e62096d54b00073e9b0623c72ea5525724031c23d9814c9ecbd74e8f690'
 };
 
 const url = "http://127.0.0.1:6969/users/";
