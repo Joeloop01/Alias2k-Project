@@ -34,6 +34,7 @@ async fn main() {
         .merge(users::router())
         .merge(todos::router())
         .merge(secrets::router())
+        .merge(authentication::router())
         .route_layer(middleware::from_fn_with_state(
             state.clone(),
             middlewares::layer::authentication,
