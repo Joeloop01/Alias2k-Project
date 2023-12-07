@@ -5,7 +5,7 @@ use std::{net::SocketAddr, str::FromStr};
 
 use tower_http::cors::CorsLayer;
 
-use axum::Router;
+use axum::{middleware, Router};
 use sqlx::{mysql::MySqlPoolOptions, MySql, Pool};
 
 use crate::endpoints::*;
@@ -34,8 +34,13 @@ async fn main() {
         .merge(users::router())
         .merge(todos::router())
         .merge(secrets::router())
+        .merge(authentication::router_user_info())
+        .route_layer(middleware::from_fn_with_state(
+            state.clone(),
+            middlewares::token::authentication_token,
+        ))
+        .merge(authentication::router_refresh_token(state.clone()))
         .merge(authentication::router_sign_in(state.clone()))
-        .merge(authentication::router_user_info(state.clone()))
         .layer(CorsLayer::permissive())
         .with_state(state);
 

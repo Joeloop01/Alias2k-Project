@@ -6,7 +6,9 @@ use chrono::{NaiveDateTime, Utc};
 use headers::authorization::Bearer;
 use headers::Authorization;
 use sha2::{Digest, Sha512};
+use sqlx::{MySql, Pool};
 
+use crate::endpoints::authentication::codify_token;
 use crate::endpoints::users::User;
 use crate::AppState;
 
@@ -24,15 +26,13 @@ pub async fn authentication_token<B>(
     mut request: Request<B>,
     next: Next<B>,
 ) -> Response {
-    let mut hasher = Sha512::new();
-    hasher.update(token.token());
-    let codified_token = hasher.finalize();
+    let codified_token = codify_token(token.token());
 
     let today = Utc::now().naive_utc();
     let result = sqlx::query_as!(
         GetToken,
         "SELECT * FROM token WHERE token = ? AND expired_at > ?",
-        format!("{:x}", codified_token),
+        codified_token,
         today
     )
     .fetch_optional(&state.pool)
@@ -43,14 +43,7 @@ pub async fn authentication_token<B>(
     }
 
     let token = result.unwrap();
-    let result_user = sqlx::query_as!(
-        User,
-        "select * from user where id = ? and deleted_at is null",
-        token.user_id
-    )
-    .fetch_optional(&state.pool)
-    .await
-    .expect("error from database");
+    let result_user = find_one(&state.pool, token.user_id).await;
     if result_user.is_none() {
         return StatusCode::UNAUTHORIZED.into_response();
     }
@@ -58,4 +51,49 @@ pub async fn authentication_token<B>(
 
     request.extensions_mut().insert(result_user);
     next.run(request).await
+}
+
+pub async fn authentication_refresh_token<B>(
+    State(state): State<AppState>,
+    refresh_token: TypedHeader<Authorization<Bearer>>,
+    mut request: Request<B>,
+    next: Next<B>,
+) -> Response {
+    let codified_refresh_token = codify_token(refresh_token.token());
+
+    let today = Utc::now().naive_utc();
+    let result = sqlx::query_as!(
+        GetToken,
+        "SELECT * FROM token WHERE refresh_token = ? AND expired_at > ?",
+        codified_refresh_token,
+        today
+    )
+    .fetch_optional(&state.pool)
+    .await
+    .expect("error from db");
+    if result.is_none() {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+
+    let token = result.unwrap();
+
+    let result_user = find_one(&state.pool, token.user_id).await;
+    if result_user.is_none() {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    let result_user = result_user.unwrap();
+
+    request.extensions_mut().insert(result_user);
+    next.run(request).await
+}
+
+async fn find_one(pool: &Pool<MySql>, id: i32) -> Option<User> {
+    sqlx::query_as!(
+        User,
+        "select * from user where id = ? and deleted_at is null",
+        id
+    )
+    .fetch_optional(pool)
+    .await
+    .expect("error from database")
 }
