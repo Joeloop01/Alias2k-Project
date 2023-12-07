@@ -5,7 +5,6 @@ use axum::response::{IntoResponse, Response};
 use chrono::{NaiveDateTime, Utc};
 use headers::authorization::Bearer;
 use headers::Authorization;
-use sha2::{Digest, Sha512};
 use sqlx::{MySql, Pool};
 
 use crate::endpoints::authentication::codify_token;
