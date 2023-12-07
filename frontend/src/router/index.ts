@@ -4,10 +4,16 @@ import UserPage from '../views/UserPage.vue'
 import NewUser from '../views/NewUser.vue'
 import PutUser from '../views/PutUser.vue'
 import DeleteUser from '../views/DeleteUser.vue'
+import HomeUser from '../views/HomeUser.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeUser
+    },
     {
       path: '/users',
       name: 'users',
