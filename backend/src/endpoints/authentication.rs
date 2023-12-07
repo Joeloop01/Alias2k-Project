@@ -1,10 +1,18 @@
-use axum::{extract::State, http::StatusCode, response::IntoResponse, routing, Json, Router};
-use chrono::{Duration, Utc};
+use axum::{
+    extract::{Extension, State},
+    http::StatusCode,
+    middleware,
+    response::IntoResponse,
+    routing, Json, Router,
+};
+use chrono::{Duration, NaiveDateTime, Utc};
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
 use sha2::{Digest, Sha512};
 use sqlx::{MySql, Pool};
 
-use crate::AppState;
+use crate::{middlewares, AppState};
+
+use super::users::User;
 
 #[derive(serde::Deserialize)]
 pub struct LogInUser {
@@ -20,14 +28,34 @@ pub struct ReturnToken {
 }
 
 #[derive(serde::Serialize)]
+pub struct GetToken {
+    token: String,
+    user_id: i32,
+    refresh_token: String,
+    expired_at: NaiveDateTime,
+}
+
+#[derive(serde::Serialize)]
 pub struct Id {
     id: i32,
 }
 
-const URL: &str = "/signin";
+pub fn router_sign_in(state: AppState) -> Router<AppState> {
+    Router::new()
+        .route("/auth/signin", routing::get(sign_in))
+        .route_layer(middleware::from_fn_with_state(
+            state.clone(),
+            middlewares::secret::authentication_secret,
+        ))
+}
 
-pub fn router() -> Router<AppState> {
-    Router::new().route(URL, routing::get(sign_in))
+pub fn router_user_info(state: AppState) -> Router<AppState> {
+    Router::new()
+        .route("/auth/userinfo", routing::get(user_info))
+        .route_layer(middleware::from_fn_with_state(
+            state.clone(),
+            middlewares::token::authentication_token,
+        ))
 }
 
 pub async fn find_one(pool: &Pool<MySql>, email: String, password: String) -> Option<Id> {
@@ -93,12 +121,6 @@ pub async fn sign_in(
     Json(token).into_response()
 }
 
-pub async fn user_info(
-    State(state): State<AppState>,
-    Json(token): Json<String>,
-) -> impl IntoResponse {
-    let mut hasher = Sha512::new();
-    hasher.update(&token);
-    let codified_token = hasher.finalize();
-    sqlx::query_as!(,"SELECT * FROM token WHERE token = ?", codified_token)
+pub async fn user_info(Extension(user): Extension<User>) -> impl IntoResponse {
+    Json(user).into_response()
 }

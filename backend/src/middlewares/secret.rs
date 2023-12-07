@@ -16,7 +16,7 @@ pub struct Secret {
     expired_at: Option<NaiveDateTime>,
 }
 
-pub async fn authentication<B>(
+pub async fn authentication_secret<B>(
     State(state): State<AppState>,
     auth: TypedHeader<Authorization<Bearer>>,
     request: Request<B>,

@@ -3,31 +3,32 @@ use axum::http::StatusCode;
 use axum::{extract::State, response::IntoResponse, Json};
 use axum::{routing, Router};
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 use sqlx::{MySql, Pool};
 
 use crate::AppState;
 
-#[derive(serde::Serialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct User {
-    id: i32,
-    name: String,
-    email: String,
+    pub id: i32,
+    pub name: String,
+    pub email: String,
     #[serde(skip_serializing)]
-    password: String,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+    pub password: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
     #[serde(skip_serializing)]
-    deleted_at: Option<NaiveDateTime>,
+    pub deleted_at: Option<NaiveDateTime>,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 pub struct NewUser {
     name: String,
     email: String,
     password: String,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 pub struct EditUser {
     name: Option<String>,
     email: Option<String>,
