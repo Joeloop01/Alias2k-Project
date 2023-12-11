@@ -43,7 +43,7 @@ pub struct Id {
 
 pub fn router_sign_in(state: AppState) -> Router<AppState> {
     Router::new()
-        .route("/auth/signin", routing::get(sign_in))
+        .route("/auth/signin", routing::any(sign_in))
         .route_layer(middleware::from_fn_with_state(
             state.clone(),
             middlewares::secret::authentication_secret,
@@ -56,7 +56,7 @@ pub fn router_user_info() -> Router<AppState> {
 
 pub fn router_refresh_token(state: AppState) -> Router<AppState> {
     Router::new()
-        .route("/auth/refreshtoken", routing::get(refresh_token))
+        .route("/auth/refreshtoken", routing::any(refresh_token))
         .route_layer(middleware::from_fn_with_state(
             state.clone(),
             middlewares::token::authentication_refresh_token,
