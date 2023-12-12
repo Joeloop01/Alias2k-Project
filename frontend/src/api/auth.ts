@@ -19,9 +19,21 @@ const headers_signin = {
 export async function signin(login: Login): Promise<Token> {
     const response =  await fetch(url + "/signin", {
         mode: "cors",
-        method:"HEAD",
-        headers: headers_signin,
-        body: JSON.stringify(login)
+        method:"ANY",
+        body: JSON.stringify(login),
+        headers: headers_signin
+    });
+    return await response.json()
+}
+
+export async function refresh_token(refresh_token:string): Promise<Token>{
+    const response =  await fetch(url + "/refreshtoken", {
+        mode: "cors",
+        method:"ANY",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "+refresh_token
+        }
     });
     return await response.json()
 }

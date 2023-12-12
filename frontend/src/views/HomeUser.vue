@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { signin, type Login, type Token } from '@/api/auth'
-import router from '@/router'
+import { signin, type Login } from '@/api/auth'
+import { useSession } from '@/stores/token'
 import { FwbHeading, FwbButton, FwbInput } from 'flowbite-vue'
 import { ref } from 'vue'
 
@@ -9,13 +9,11 @@ let login = ref<Login>({
   password: ''
 })
 
-let token = ref<Token | null>(null)
-
 const userPath = window.location.href + 'users/'
 
-function onClick() {
-  signin(login.value).then((t) => (token.value = t))
-  console.log(token.value)
+async function onClick() {
+  const store_token = useSession()
+  store_token.token = await signin(login.value)
   //router.push({ path: '/users' })
 }
 </script>
