@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { signin, type Login } from '@/api/auth'
+import { signIn } from '@/plugins/session'
+import router from '@/router'
 import { useSession } from '@/stores/token'
+import dayjs from 'dayjs'
 import { FwbHeading, FwbButton, FwbInput } from 'flowbite-vue'
 import { ref } from 'vue'
 
@@ -10,11 +13,11 @@ let login = ref<Login>({
 })
 
 const userPath = window.location.href + 'users/'
+localStorage.removeItem('token')
 
 async function onClick() {
-  const store_token = useSession()
-  store_token.token = await signin(login.value)
-  //router.push({ path: '/users' })
+  await signIn(login.value)
+  router.push({ path: '/users' })
 }
 </script>
 
@@ -24,7 +27,8 @@ async function onClick() {
   </fwb-heading>
   <div class="flex flex-col items-stretch max-w-md gap-4 mx-auto">
     <fwb-input v-model="login.email" placeholder="Enter your email"> </fwb-input>
-    <fwb-input v-model="login.password" placeholder="Enter your password"> </fwb-input>
+    <fwb-input type="password" v-model="login.password" placeholder="Enter your password">
+    </fwb-input>
   </div>
   <div class="flex justify-center gap-5 my-10">
     <fwb-button color="green" @click="onClick"> Log in </fwb-button>

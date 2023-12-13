@@ -32,7 +32,7 @@ export async function refresh_token(refresh_token:string): Promise<Token>{
         method:"ANY",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer "+refresh_token
+            "Authorization": "Bearer "+ refresh_token
         }
     });
     return await response.json()
