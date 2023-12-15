@@ -1,12 +1,12 @@
 use axum::extract::Path;
 use axum::http::StatusCode;
 use axum::{extract::State, response::IntoResponse, Json};
-use axum::{routing, Router};
+use axum::{middleware, routing, Router};
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use sqlx::{MySql, Pool};
 
-use crate::AppState;
+use crate::{middlewares, AppState};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct User {
@@ -40,11 +40,19 @@ const URL_ID: &str = "/users/:id";
 pub fn router() -> Router<AppState> {
     Router::new()
         .route(URL, routing::get(get_all))
-        .route(URL, routing::post(post))
         .route(URL_ID, routing::get(get))
         .route(URL_ID, routing::put(put))
         .route(URL_ID, routing::patch(patch))
         .route(URL_ID, routing::delete(delete))
+}
+
+pub fn router_post(state: AppState) -> Router<AppState> {
+    Router::new()
+        .route(URL, routing::post(post))
+        .route_layer(middleware::from_fn_with_state(
+            state.clone(),
+            middlewares::secret::authentication_secret,
+        ))
 }
 
 pub async fn find_one(pool: &Pool<MySql>, id: i32) -> Option<User> {

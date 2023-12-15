@@ -15,17 +15,24 @@ import {
 } from 'flowbite-vue'
 import dayjs from 'dayjs'
 import { useSession } from '@/stores/token'
-import type { AppToken } from '@/plugins/session'
+import { refresh_token } from '@/api/auth'
+
+let session = useSession()
+
+console.log(session.token)
+if (session.token == null) {
+  location.reload()
+}
 
 let data = ref<User[] | null>(null)
-getAll().then((d) => (data.value = d))
+if (session.token != null) {
+  getAll(session.token!.token).then((d) => (data.value = d))
+}
 
 const userPath = window.location.href + '/'
 const nameOrEmail = ref('')
 const from = ref('')
 const to = ref('')
-
-const session = useSession()
 
 const filtered = computed(() => {
   const query = nameOrEmail.value.toLowerCase().trim()

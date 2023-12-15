@@ -60,16 +60,15 @@ pub async fn authentication_refresh_token<B>(
 ) -> Response {
     let codified_refresh_token = codify_token(refresh_token.token());
 
-    let today = Utc::now().naive_utc();
     let result = sqlx::query_as!(
         GetToken,
-        "SELECT * FROM token WHERE refresh_token = ? AND expired_at > ?",
+        "SELECT * FROM token WHERE refresh_token = ?",
         codified_refresh_token,
-        today
     )
     .fetch_optional(&state.pool)
     .await
     .expect("error from db");
+
     if result.is_none() {
         return StatusCode::UNAUTHORIZED.into_response();
     }

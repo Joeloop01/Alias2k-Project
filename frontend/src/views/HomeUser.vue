@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { signin, type Login } from '@/api/auth'
+import { type Login } from '@/api/auth'
 import { signIn } from '@/plugins/session'
 import router from '@/router'
-import { useSession } from '@/stores/token'
-import dayjs from 'dayjs'
 import { FwbHeading, FwbButton, FwbInput } from 'flowbite-vue'
 import { ref } from 'vue'
 

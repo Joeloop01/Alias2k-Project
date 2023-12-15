@@ -19,8 +19,10 @@ let newTodoData = ref<NewTodo>({
   ...props.todo
 })
 
+let title_length = newTodoData.value.title.length
+
 let headerText = 'New Todo'
-if (newTodoData.value.title.length > 0) {
+if (title_length > 0) {
   headerText = 'Details'
 }
 
@@ -47,13 +49,13 @@ function createNewTodo() {
       <div class="flex flex-col gap-3">
         <fwb-input class="flex-1" v-model.trim="newTodoData.title" label="Title:" />
         <fwb-input class="flex-1" v-model.trim="newTodoData.description" label="Description:" />
-        <div v-if="newTodoData.title.length == 0">
+        <div v-if="title_length == 0">
           <br />
           <fwb-checkbox v-model="isCompleted" label="Already completed" />
         </div>
       </div>
 
-      <div v-if="newTodoData.title.length > 0">
+      <div v-if="title_length > 0">
         <br />
         Created at: {{ todo!.created_at }}
         <br />

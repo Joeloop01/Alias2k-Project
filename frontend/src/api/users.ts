@@ -16,27 +16,28 @@ export type NewUser = EditUser & {
 }
 
 
-const headers = {
-    "Content-Type": "application/json",
-    'Authorization': 'Bearer 2N4oLyrrLLw8lMaSTWx5FFszqiabRDrleYZzXN8VrbDnkFHXoEgWdox1Snl675tDIMKAn7QU4O91l2GYd7stxeYQmF6eAoPkjQ5YFqp95D3bDnsbBzuXrjIkXYfoNO89Mj7AjO7nbfxZSewpkBOhtwck2AvJxhypRImQnzjGMwtNgXmacjM9q9hz2Y5iXruf7ecA28WZqDhGYmQCHRWN1ZLA47TvrCcuosN15dqpUPi8DiwsKpSvLaTzEM0LjlbLXlqYcZA7kVc6KfntQ3aHrREawYyQoeqop6N0gHGa6x3rDlp8hAzV7j5XNZi7yDSDzbbaFRWbHlXvAAJvQdNF2qUd2Pv8jXA4Ncc0AlfOR2IovqQHJiUyIjG6ypZAu6MnqasIrqqMlFtgbEJqaXEsnIO2TKbNWu7HQ30x8yGnjJ6Nb5rzXQBFvl9kaSYkFlXTKBjCB8Ol0ZaMD4C1NRiIpTd4DxniRpJJv9KC4bvwcni758EFWTAJosocpajC2P9c'
-};
-
 const url = "http://127.0.0.1:6969/users";
 
-export async function getAll(): Promise<User[]> {
+export async function getAll(token: string): Promise<User[]> {
     const response = await fetch(url, {
         mode: "cors",
         method: "GET",
-        headers
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + token,
+        }
     });
     return await response.json()
 }
 
-export async function get(id: string): Promise<User> {
+export async function get(id: string, token: string): Promise<User> {
     const response = await fetch(url + "/" + id, {
         mode: "cors",
         method: "GET",
-        headers
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + token,
+        }
     })
     return await response.json()
 }
@@ -45,24 +46,33 @@ export async function post(data: NewUser) {
     await fetch(url, {
         mode: "cors",
         method: "POST",
-        headers,
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer 13565bea-941e-11ee-b7e0-38ca84c6d8be:5d235688b3b5049b361a0fe3d60f9233aec4afbd0de11c95337bcfeabfa538076f9732068fc3831104bd774b70f62cdf6755df1ed5301daa632e52003e935cc5'
+        },
         body: JSON.stringify(data)
     })
 }
 
-export async function put(data: EditUser, id: string) {
+export async function put(data: EditUser, id: string, token: string) {
     await fetch(url + "/" + id, {
         mode: "cors",
         method: "PATCH",
-        headers,
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + token,
+        },
         body: JSON.stringify(data)
     })
 }
 
-export async function deleted(id: string) {
+export async function deleted(id: string, token: string) {
     await fetch(url + "/" + id, {
         mode: "cors",
         method: "DELETE",
-        headers
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + token,
+        }
     })
 }

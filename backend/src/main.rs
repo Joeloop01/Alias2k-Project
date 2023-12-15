@@ -39,6 +39,7 @@ async fn main() {
             state.clone(),
             middlewares::token::authentication_token,
         ))
+        .merge(users::router_post(state.clone()))
         .merge(authentication::router_refresh_token(state.clone()))
         .merge(authentication::router_sign_in(state.clone()))
         .layer(CorsLayer::permissive())

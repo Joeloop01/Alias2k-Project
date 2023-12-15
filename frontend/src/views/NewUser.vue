@@ -13,7 +13,7 @@ let data = ref<NewUser>({
 
 function onClick() {
   post(data.value)
-  router.push({ path: '/users' })
+  router.push({ path: '/' })
 }
 </script>
 
