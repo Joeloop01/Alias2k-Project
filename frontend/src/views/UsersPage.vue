@@ -10,24 +10,17 @@ import {
   FwbTableHead,
   FwbTableHeadCell,
   FwbTableRow,
-  FwbA,
-  FwbButton
+  FwbA
 } from 'flowbite-vue'
 import dayjs from 'dayjs'
 import { useSession } from '@/stores/token'
-import { refresh_token } from '@/api/auth'
 
 let session = useSession()
 
 console.log(session.token)
-if (session.token == null) {
-  location.reload()
-}
 
 let data = ref<User[] | null>(null)
-if (session.token != null) {
-  getAll(session.token!.token).then((d) => (data.value = d))
-}
+getAll(session.token!.token).then((d) => (data.value = d))
 
 const userPath = window.location.href + '/'
 const nameOrEmail = ref('')
@@ -56,48 +49,44 @@ const filtered = computed(() => {
 </script>
 
 <template>
-  <div v-if="session.token == null">NOT AUTORIZED</div>
-  <div v-else>
-    <div class="md:gap-3 md:flex">
-      <fwb-input v-model="nameOrEmail" class="flex-1" placeholder="Search a user" label="User:" />
+  <div class="md:gap-3 md:flex">
+    <fwb-input v-model="nameOrEmail" class="flex-1" placeholder="Search a user" label="User:" />
+    <br />
+    <div class="gap-3 md:flex">
+      <fwb-input type="datetime-local" class="flex-1" v-model="from" label="From:" />
       <br />
-      <div class="gap-3 md:flex">
-        <fwb-input type="datetime-local" class="flex-1" v-model="from" label="From:" />
-        <br />
-        <fwb-input type="datetime-local" class="flex-1" v-model="to" label="To:" />
-      </div>
+      <fwb-input type="datetime-local" class="flex-1" v-model="to" label="To:" />
     </div>
-    <br />
-
-    <fwb-table>
-      <fwb-table-head>
-        <fwb-table-head-cell> Name </fwb-table-head-cell>
-        <fwb-table-head-cell> Email </fwb-table-head-cell>
-        <fwb-table-head-cell> Created at </fwb-table-head-cell>
-        <fwb-table-head-cell> Updated at </fwb-table-head-cell>
-        <fwb-table-head-cell> <span class="sr-only">Edit</span></fwb-table-head-cell>
-      </fwb-table-head>
-      <fwb-table-body>
-        <fwb-table-row v-for="user of filtered" v-bind:key="user.id">
-          <fwb-table-cell>
-            <fwb-a :href="`${userPath}${user.id.toString()}`">{{ user.name }}</fwb-a>
-          </fwb-table-cell>
-          <fwb-table-cell>{{ user.email }}</fwb-table-cell>
-          <fwb-table-cell>
-            Day: {{ dayjs(user.created_at).format(' DD/MM/YYYY ') }} <br />
-            Hour: {{ dayjs(user.created_at).format(' h:mm:ss ') }}
-          </fwb-table-cell>
-          <fwb-table-cell
-            >Day: {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }} <br />
-            Hour: {{ dayjs(user.updated_at).format(' h:mm:ss ') }}
-          </fwb-table-cell>
-          <fwb-table-cell>
-            <fwb-a :href="`${userPath}${user.id.toString()}` + `/edit`">Edit</fwb-a>
-          </fwb-table-cell>
-        </fwb-table-row>
-      </fwb-table-body>
-    </fwb-table>
-    <br />
-    <fwb-button color="green" :href="`${userPath}` + `new`"> Create a new user</fwb-button>
   </div>
+  <br />
+
+  <fwb-table>
+    <fwb-table-head>
+      <fwb-table-head-cell> Name </fwb-table-head-cell>
+      <fwb-table-head-cell> Email </fwb-table-head-cell>
+      <fwb-table-head-cell> Created at </fwb-table-head-cell>
+      <fwb-table-head-cell> Updated at </fwb-table-head-cell>
+      <fwb-table-head-cell> <span class="sr-only">Edit</span></fwb-table-head-cell>
+    </fwb-table-head>
+    <fwb-table-body>
+      <fwb-table-row v-for="user of filtered" v-bind:key="user.id">
+        <fwb-table-cell>
+          <fwb-a :href="`${userPath}${user.id.toString()}`">{{ user.name }}</fwb-a>
+        </fwb-table-cell>
+        <fwb-table-cell>{{ user.email }}</fwb-table-cell>
+        <fwb-table-cell>
+          Day: {{ dayjs(user.created_at).format(' DD/MM/YYYY ') }} <br />
+          Hour: {{ dayjs(user.created_at).format(' h:mm:ss ') }}
+        </fwb-table-cell>
+        <fwb-table-cell
+          >Day: {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }} <br />
+          Hour: {{ dayjs(user.updated_at).format(' h:mm:ss ') }}
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <fwb-a :href="`${userPath}${user.id.toString()}` + `/edit`">Edit</fwb-a>
+        </fwb-table-cell>
+      </fwb-table-row>
+    </fwb-table-body>
+  </fwb-table>
+  <br />
 </template>

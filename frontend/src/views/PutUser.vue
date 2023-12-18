@@ -9,6 +9,7 @@ import router from '@/router'
 import { useSession } from '@/stores/token'
 
 let id = useRoute().params.id.toString()
+
 const session = useSession()
 
 let editUser = ref<EditUser>({
@@ -16,9 +17,7 @@ let editUser = ref<EditUser>({
   email: ''
 })
 
-if (session.token != null) {
-  get(id, session.token!.token).then((d) => (editUser.value = d))
-}
+get(id, session.token!.token).then((d) => (editUser.value = d))
 
 function onClick() {
   router.push({ path: '/users' })
@@ -27,13 +26,10 @@ function onClick() {
 </script>
 
 <template>
-  <div v-if="session.token == null">NOT AUTORIZED</div>
-  <div v-else>
-    <br />
-    <fwb-input v-model="editUser.name" label="Enter your name" />
-    <br />
-    <fwb-input v-model="editUser.email" label="Enter your email" />
-    <br />
-    <fwb-button @click="onClick" color="green">submit</fwb-button>
-  </div>
+  <br />
+  <fwb-input v-model="editUser.name" label="Enter your name" />
+  <br />
+  <fwb-input v-model="editUser.email" label="Enter your email" />
+  <br />
+  <fwb-button @click="onClick" color="green">submit</fwb-button>
 </template>

@@ -1,3 +1,5 @@
+import type { User } from "./users"
+
 export type Login = {
     email: string
     password: string
@@ -35,5 +37,17 @@ export async function refresh_token(refresh_token:string): Promise<Token>{
             "Authorization": "Bearer "+ refresh_token
         }
     });
+    return await response.json()
+}
+
+export async function user_info(token: string): Promise<User>{
+    const response = await fetch(url + "/userinfo", {
+        mode: "cors",
+        method:"GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "+ token
+        }
+    })
     return await response.json()
 }

@@ -91,7 +91,7 @@ pub async fn sign_in(
     let codified_token = codify_token(&token);
     let codified_refresh_token = codify_token(&refresh_token);
 
-    let expires_in = Duration::seconds(5);
+    let expires_in = Duration::seconds(900);
     let expired_at = Utc::now().naive_utc() + expires_in;
 
     post_token(
@@ -124,9 +124,10 @@ pub async fn refresh_token(
     let today = Utc::now().naive_utc();
 
     sqlx::query!(
-        "UPDATE token SET expired_at = ? WHERE refresh_token = ?",
+        "UPDATE token SET expired_at = ? WHERE refresh_token = ? AND expired_at > ?",
         today,
-        codified_refresh_token
+        codified_refresh_token,
+        today
     )
     .execute(&state.pool)
     .await
@@ -138,7 +139,7 @@ pub async fn refresh_token(
     let codified_token = codify_token(&token);
     let codified_refresh_token = codify_token(&refresh_token);
 
-    let expires_in = Duration::seconds(5);
+    let expires_in = Duration::seconds(900);
     let expired_at = Utc::now().naive_utc() + expires_in;
 
     post_token(
