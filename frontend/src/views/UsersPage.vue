@@ -17,8 +17,6 @@ import { useSession } from '@/stores/token'
 
 let session = useSession()
 
-console.log(session.token)
-
 let data = ref<User[] | null>(null)
 getAll(session.token!.token).then((d) => (data.value = d))
 

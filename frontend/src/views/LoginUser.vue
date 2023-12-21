@@ -11,8 +11,8 @@ let login = ref<Login>({
 })
 
 async function onClick() {
-  const id = await signIn(login.value)
-  router.push({ path: '/users/' + id })
+  await signIn(login.value)
+  router.push({ path: '/' })
 }
 </script>
 
@@ -25,7 +25,8 @@ async function onClick() {
     <fwb-input type="password" v-model="login.password" placeholder="Enter your password">
     </fwb-input>
   </div>
-  <div class="flex justify-center my-10">
+  <div class="flex justify-center gap-5 my-10">
     <fwb-button color="green" @click="onClick"> Confirm </fwb-button>
+    <fwb-button color="green" href="/users/new"> Create new user </fwb-button>
   </div>
 </template>

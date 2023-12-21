@@ -1,8 +1,8 @@
-import { refresh_token, type Login, type Token, signin, user_info } from '@/api/auth';
+import { refresh_token, type Login, type Token, signin} from '@/api/auth';
 import dayjs from 'dayjs';
 
 const session = {
-    async install() {
+    install() {
     }
   }
 export default session;
@@ -37,9 +37,7 @@ export async function refresh_session_token(app_refresh_token: string){
     set_session_token(result)
 }
 
-export async function signIn(credentials: Login): Promise<number> {
+export async function signIn(credentials: Login){
     const session_token = await signin(credentials)
     set_session_token(session_token)
-    const response = await user_info(session_token.token)
-    return response.id
 }

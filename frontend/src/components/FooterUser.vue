@@ -3,5 +3,5 @@ import { FwbFooter } from 'flowbite-vue'
 </script>
 
 <template>
-  <fwb-footer class="relative"> Created by Simone Giotti. Email: simgiot@gmail.com </fwb-footer>
+  <fwb-footer> Created by Simone Giotti. Email: simgiot@gmail.com </fwb-footer>
 </template>

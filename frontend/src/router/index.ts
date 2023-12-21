@@ -8,6 +8,7 @@ import LoginUser from '../views/LoginUser.vue'
 import HomeUser from '../views/HomeUser.vue'
 import { useSession } from '@/stores/token'
 import { get_session_token } from '@/plugins/session'
+import { user_info } from '@/api/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeUser
+      component: HomeUser,
+      beforeEnter: [check_token]
     },
     {
       path: '/login',
@@ -33,7 +35,7 @@ const router = createRouter({
       path: '/users/:id',
       name: 'user',
       component: UserPage,
-      beforeEnter: [check_session]
+      beforeEnter: [check_session, check_user]
     },
     {
       path: '/users/new',
@@ -44,7 +46,7 @@ const router = createRouter({
       path: '/users/:id/edit',
       name: 'putuser',
       component: PutUser,
-      beforeEnter: [check_session]
+      beforeEnter: [check_session, check_user]
     },
     {
       path: '/users/:id/delete',
@@ -64,7 +66,19 @@ async function check_session(){
 }
 
 async function check_isLogged(){
-  const token = await get_session_token()
-  if (token == null) return
+  useSession().token = await get_session_token() 
+  if (useSession().token == null) return
   router.push({ path: '/'})
+}
+
+async function check_user(to: any){
+  useSession().token = await get_session_token() 
+  if (useSession().token == null) return
+  const user =  await user_info(useSession().token!.token)
+  if(user.id == to.params.id) return
+  router.push({ path: '/'})
+}
+
+async function check_token(){
+  useSession().token = await get_session_token() 
 }

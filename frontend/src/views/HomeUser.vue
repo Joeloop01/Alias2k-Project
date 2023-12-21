@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import { FwbButton, FwbHeading } from 'flowbite-vue'
+import { user_info } from '@/api/auth'
+import type { User } from '@/api/users'
+import userInfo from '@/components/UserInfo.vue'
+import router from '@/router'
 
-const userPath = window.location.href
+import { useSession } from '@/stores/token'
+import { ref } from 'vue'
 
-localStorage.removeItem('token')
+let user = ref<User | null>()
+
+if (useSession().token != null) {
+  user_info(useSession().token!.token).then((u) => (user.value = u))
+} else {
+  router.push({ path: '/login' })
+}
 </script>
 
 <template>
-  <fwb-heading tag="h1" class="flex justify-center my-12 font-thin text-green-400">
-    Welcome to Project Joe</fwb-heading
-  >
-  <div class="flex justify-center gap-5 my-10">
-    <fwb-button color="green" :href="`${userPath}` + `login`"> Login </fwb-button>
-    <fwb-button color="green" :href="`${userPath}` + `users/new`"> Create new user </fwb-button>
+  <div v-if="user != null">
+    <userInfo :id="user!.id.toString()" />
   </div>
 </template>

@@ -162,7 +162,7 @@ pub async fn refresh_token(
 fn create_token() -> String {
     thread_rng()
         .sample_iter(&Alphanumeric)
-        .take(512)
+        .take(90012)
         .map(char::from)
         .collect()
 }
