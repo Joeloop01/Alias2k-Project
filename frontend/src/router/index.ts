@@ -29,7 +29,7 @@ const router = createRouter({
       path: '/users',
       name: 'users',
       component: UsersPage,
-      beforeEnter: [check_session]
+      beforeEnter: [check_session, check_admin]
     },
     {
       path: '/users/:id',
@@ -75,7 +75,16 @@ async function check_user(to: any){
   useSession().token = await get_session_token() 
   if (useSession().token == null) return
   const user =  await user_info(useSession().token!.token)
+  if(user.admin == 1) return
   if(user.id == to.params.id) return
+  router.push({ path: '/'})
+}
+
+async function check_admin(){
+  useSession().token = await get_session_token() 
+  if (useSession().token == null) return
+  const user =  await user_info(useSession().token!.token)
+  if(user.admin == 1) return
   router.push({ path: '/'})
 }
 

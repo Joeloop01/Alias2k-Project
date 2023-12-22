@@ -4,6 +4,7 @@ export type User = {
     email: string,
     created_at: string,
     updated_at: string,
+    admin: number
 }
 
 export type EditUser = {
@@ -48,7 +49,7 @@ export async function post(data: NewUser) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer 13565bea-941e-11ee-b7e0-38ca84c6d8be:5d235688b3b5049b361a0fe3d60f9233aec4afbd0de11c95337bcfeabfa538076f9732068fc3831104bd774b70f62cdf6755df1ed5301daa632e52003e935cc5'
+            'Authorization': 'Bearer 34393e2c-9fe6-11ee-b215-38ca84c6d8be:02d7e0fe824a812a2a4efb6a5027734b5c90bef9b2abd55b35665828ab4d6d127e3c4f3f389888c52a2492629b6a455d8cd22192ee7091ef67c6546cd3546f57'
         },
         body: JSON.stringify(data)
     })
@@ -66,7 +67,7 @@ export async function put(data: EditUser, id: string, token: string) {
     })
 }
 
-export async function deleted(id: string, token: string) {
+export async function delete_user(id: string, token: string) {
     await fetch(url + "/" + id, {
         mode: "cors",
         method: "DELETE",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAll } from '@/api/users'
+import { delete_user, getAll } from '@/api/users'
 import { ref, computed } from 'vue'
 import type { User } from '@/api/users'
 import {
@@ -44,6 +44,11 @@ const filtered = computed(() => {
   }
   return list
 })
+
+async function onRemove(user: User) {
+  await delete_user(user.id.toString(), session.token!.token)
+  location.reload()
+}
 </script>
 
 <template>
@@ -65,6 +70,7 @@ const filtered = computed(() => {
       <fwb-table-head-cell> Created at </fwb-table-head-cell>
       <fwb-table-head-cell> Updated at </fwb-table-head-cell>
       <fwb-table-head-cell> <span class="sr-only">Edit</span></fwb-table-head-cell>
+      <fwb-table-head-cell> <span class="sr-only">Remove</span></fwb-table-head-cell>
     </fwb-table-head>
     <fwb-table-body>
       <fwb-table-row v-for="user of filtered" v-bind:key="user.id">
@@ -76,13 +82,14 @@ const filtered = computed(() => {
           Day: {{ dayjs(user.created_at).format(' DD/MM/YYYY ') }} <br />
           Hour: {{ dayjs(user.created_at).format(' h:mm:ss ') }}
         </fwb-table-cell>
-        <fwb-table-cell
-          >Day: {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }} <br />
+        <fwb-table-cell>
+          Day: {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }} <br />
           Hour: {{ dayjs(user.updated_at).format(' h:mm:ss ') }}
         </fwb-table-cell>
         <fwb-table-cell>
           <fwb-a :href="`${userPath}${user.id.toString()}` + `/edit`">Edit</fwb-a>
         </fwb-table-cell>
+        <fwb-table-cell @click="onRemove(user)" class="hover:underline"> Remove </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>
   </fwb-table>

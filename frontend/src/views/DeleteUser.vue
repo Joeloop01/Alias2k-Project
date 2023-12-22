@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { deleted } from '@/api/users'
+import { delete_user } from '@/api/users'
 import { useSession } from '@/stores/token'
 import { useRoute } from 'vue-router'
 
@@ -9,5 +9,5 @@ const session = useSession()
 </script>
 
 <template>
-  <button @click="deleted(id, session.token!.token)">submit</button>
+  <button @click="delete_user(id, session.token!.token)">submit</button>
 </template>

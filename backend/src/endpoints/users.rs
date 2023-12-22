@@ -19,6 +19,7 @@ pub struct User {
     pub updated_at: NaiveDateTime,
     #[serde(skip_serializing)]
     pub deleted_at: Option<NaiveDateTime>,
+    pub admin: i8,
 }
 
 #[derive(Deserialize)]
@@ -36,6 +37,7 @@ pub struct EditUser {
 }
 
 const URL: &str = "/users";
+const URL_ADMIN: &str = "/users/admin";
 const URL_ID: &str = "/users/:id";
 pub fn router() -> Router<AppState> {
     Router::new()
@@ -49,6 +51,7 @@ pub fn router() -> Router<AppState> {
 pub fn router_post(state: AppState) -> Router<AppState> {
     Router::new()
         .route(URL, routing::post(post))
+        .route(URL_ADMIN, routing::post(post_admin))
         .route_layer(middleware::from_fn_with_state(
             state.clone(),
             middlewares::secret::authentication_secret,
@@ -86,7 +89,23 @@ pub async fn post(
     Json(payload): Json<NewUser>,
 ) -> impl IntoResponse {
     sqlx::query!(
-        "insert into user (name,email,password) values (?,?,?)",
+        "insert into user (name,email,password,admin) values (?,?,?,false)",
+        payload.name,
+        payload.email,
+        payload.password,
+    )
+    .execute(&state.pool)
+    .await
+    .expect("db error");
+    StatusCode::CREATED.into_response()
+}
+
+pub async fn post_admin(
+    State(state): State<AppState>,
+    Json(payload): Json<NewUser>,
+) -> impl IntoResponse {
+    sqlx::query!(
+        "insert into user (name,email,password,admin) values (?,?,?,true)",
         payload.name,
         payload.email,
         payload.password,

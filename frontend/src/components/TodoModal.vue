@@ -57,11 +57,16 @@ function createNewTodo() {
 
       <div v-if="title_length > 0">
         <br />
-        Created at: {{ todo!.created_at }}
+        Created at day: {{ dayjs(todo!.created_at).format(' DD/MM/YYYY ') }} hour:
+        {{ dayjs(todo!.created_at).add(1, 'hour').format(' h:mm:ss ') }}
         <br />
-        Last update: {{ todo!.updated_at }} <br />
-        <div v-if="todo?.completed_at != undefined">Completed at: {{ todo!.completed_at }}</div>
-        <div v-else>Completed at: Not completed</div>
+        Last update at day: {{ dayjs(todo!.updated_at).format(' DD/MM/YYYY ') }} hour:
+        {{ dayjs(todo!.updated_at).add(1, 'hour').format(' h:mm:ss ') }}
+        <div v-if="todo?.completed_at != undefined">
+          Completed at day:
+          {{ dayjs(todo!.completed_at).format(' DD/MM/YYYY ') }} hour:
+          {{ dayjs(todo!.completed_at).format(' h:mm:ss ') }}
+        </div>
       </div>
     </template>
     <template #footer>
