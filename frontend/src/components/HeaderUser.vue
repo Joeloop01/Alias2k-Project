@@ -20,13 +20,13 @@ function onLogout() {
 </script>
 
 <template>
-  <header class="flex gap-5 my-10">
-    <fwb-heading tag="h1" class="font-light" color="text-green-400">
-      Project Vue by Simone
+  <header class="flex gap-5 p-6 bg-green-200">
+    <fwb-heading tag="h1" class="font-light" color="text-green-500" href="/">
+      <a href="/">SimVue</a>
     </fwb-heading>
     <div v-if="useSession().token != null" class="relative flex align-middle gap-6o">
       <button
-        class="text-sm rounded-full md:me-0 md:focus:ring-4 md:focus:ring-gray-300"
+        class="flex text-sm rounded-full md:me-0 md:focus:ring-4 md:focus:ring-green-500"
         type="button"
         @click="onCLick()"
       >
@@ -34,7 +34,7 @@ function onLogout() {
       </button>
       <div
         v-if="showButton"
-        class="absolute right-0 z-10 mr-0 bg-white divide-y divide-gray-100 rounded-lg shadow my-28 md:my-20 w-44"
+        class="absolute right-0 z-10 my-16 mr-0 bg-white divide-y divide-gray-100 rounded-lg shadow md:-top-3 md:my-20 w-44"
       >
         <div class="px-4 py-3 text-sm text-black">
           <p>
@@ -61,7 +61,9 @@ function onLogout() {
             </a>
           </li>
           <li>
-            <div class="block px-4 py-2 hover:bg-gray-100" @click="onLogout">Logout</div>
+            <div class="block px-4 py-2 cursor-pointer hover:bg-gray-100" @click="onLogout">
+              Logout
+            </div>
           </li>
         </ul>
       </div>

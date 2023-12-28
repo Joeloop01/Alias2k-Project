@@ -22,12 +22,12 @@ function onClick() {
     New User
   </fwb-heading>
   <div class="flex flex-col items-stretch max-w-md gap-4 mx-auto">
-    <fwb-input v-model="data.name" placeholder="Enter your name" />
-    <fwb-input v-model="data.email" placeholder="Enter your email" />
+    <fwb-input v-model="data.name" placeholder="Name" />
+    <fwb-input v-model="data.email" placeholder="Email" />
     <fwb-input
       type="password"
       v-model="data.password"
-      placeholder="Enter your password"
+      placeholder="Password"
       autocomplete="new-password"
     />
   </div>

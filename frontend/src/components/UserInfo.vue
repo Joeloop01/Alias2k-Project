@@ -75,45 +75,42 @@ function isClicked(todoData: Todo) {
 </script>
 
 <template>
-  <div class="flex flex-col items-center my-10 rounded-lg">
-    <div class="m-16">
-      <img src="https://picsum.photos/300" class="m-auto rounded-full shadow-xl" />
-    </div>
-    <fwb-heading tag="h1" class="mb-6 font-medium text-center"
-      >{{ userData?.name }}
-      <span v-if="userData?.admin == 1" class="text-xl font-medium text-slate-500">
-        (Admin)</span
-      ></fwb-heading
-    >
+  <div class="flex flex-col items-center my-10">
+    <img src="https://picsum.photos/300" class="m-16 rounded-full shadow-xl" />
+    <fwb-heading tag="h1" class="mb-6 font-medium text-center">
+      {{ userData?.name }}
+      <span v-if="userData?.admin == 1" class="text-xl font-medium text-slate-500"> (Admin) </span>
+    </fwb-heading>
     <fwb-heading tag="h5" class="mb-6 font-medium text-center text-slate-500">
       Contact: {{ userData?.email }}
     </fwb-heading>
   </div>
-
+  <hr />
+  <hr />
   <div class="flex my-5">
     <fwb-heading tag="h2" class="font-light leading-normal text-green-500">TODOS</fwb-heading>
-    <fwb-button @click="openNewTodoModal" color="green" class="flex-shrink-0 mx-6"
-      >New Todo</fwb-button
-    >
+    <fwb-button @click="openNewTodoModal" color="green" class="flex-shrink-0">
+      New Todo
+    </fwb-button>
   </div>
 
   <fwb-heading tag="h4" class="my-5 font-light text-green-500">Not completed</fwb-heading>
 
   <fwb-table hoverable>
     <fwb-table-body>
-      <fwb-table-row v-for="todo in todosData" v-bind:key="todo.id" class="flex" v-auto-animate>
+      <fwb-table-row v-for="todo in todosData" v-bind:key="todo.id" v-auto-animate>
         <div v-if="todo.completed_at == undefined">
-          <fwb-table-cell>
+          <fwb-table-cell class="align-middle">
             <fwb-checkbox
               v-model="computed(() => todo.completed_at != undefined).value"
               @click="isClicked(todo)"
-              class="m-3 my-auto"
+              class="ml-5"
             />
           </fwb-table-cell>
           <fwb-table-cell v-if="todo.completed_at == undefined" @click="openEditTodoModal(todo)">
-            <div class="flex-col text-start md:mx-0">
+            <div class="text-start md:mx-0">
               <fwb-heading tag="h5" class="font-semibold">{{ todo.title }}</fwb-heading>
-              <div class="font-normal text-slate-500">
+              <div class="font-normal break-all text-slate-500">
                 {{ todo.description }}
               </div>
             </div>
@@ -125,21 +122,21 @@ function isClicked(todoData: Todo) {
 
   <fwb-heading tag="h4" class="my-5 font-light text-green-500">Completed</fwb-heading>
 
-  <fwb-table hoverable class="my-5" v-auto-animate>
+  <fwb-table hoverable class="my-5">
     <fwb-table-body>
-      <fwb-table-row v-for="todo in todosData" v-bind:key="todo.id" class="" v-auto-animate>
+      <fwb-table-row v-for="todo in todosData" v-bind:key="todo.id" v-auto-animate>
         <div v-if="todo.completed_at != undefined">
-          <fwb-table-cell>
+          <fwb-table-cell class="align-middle">
             <fwb-checkbox
               v-model="computed(() => todo.completed_at != undefined).value"
               @click="isClicked(todo)"
-              class="m-3 my-auto"
+              class="ml-5"
             />
           </fwb-table-cell>
           <fwb-table-cell v-if="todo.completed_at != undefined" @click="openEditTodoModal(todo)">
-            <div class="flex-col text-start md:mx-0">
+            <div class="text-start md:mx-0">
               <fwb-heading tag="h5" class="font-semibold">{{ todo.title }}</fwb-heading>
-              <div class="font-normal text-slate-500">
+              <div class="font-normal break-all text-slate-500">
                 {{ todo.description }}
               </div>
             </div>

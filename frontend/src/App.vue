@@ -5,9 +5,11 @@ import Footer from '@/components/FooterUser.vue'
 </script>
 
 <template>
-  <div class="container">
+  <div class="bg-green-100">
     <Header />
-    <RouterView />
+    <div class="container">
+      <RouterView />
+    </div>
     <Footer />
   </div>
 </template>

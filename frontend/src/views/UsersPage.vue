@@ -52,7 +52,7 @@ async function onRemove(user: User) {
 </script>
 
 <template>
-  <div class="md:gap-3 md:flex">
+  <div class="mt-4 md:gap-3 md:flex">
     <fwb-input v-model="nameOrEmail" class="flex-1" placeholder="Search a user" label="User:" />
     <br />
     <div class="gap-3 md:flex">
