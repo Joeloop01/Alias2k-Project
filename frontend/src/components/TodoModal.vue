@@ -17,7 +17,7 @@ const headerText = !props.todo ? 'New Todo' : 'Details'
 const FORM_SCHEMA = z.object({
   title: z.string().min(3),
   description: z.string(),
-  isCompleted: z.boolean().optional()
+  isCompleted: z.string().optional()
 })
 type FormType = z.infer<typeof FORM_SCHEMA>
 
@@ -27,19 +27,14 @@ const { handleSubmit } = useForm<FormType>({
 })
 
 const onSubmit = handleSubmit((value) => {
-  console.log('stocazzo', value)
   let newTodo: NewTodo = {
     title: value.title,
     description: value.description,
     completed_at: undefined
   }
-  console.log(value.isCompleted)
-  if (value.isCompleted == true) {
+  if (props.todo?.completed_at != undefined || value.isCompleted != undefined) {
     newTodo.completed_at = dayjs(props.todo?.completed_at).format('YYYY-MM-DDTHH:mm:ss')
-  } else {
-    newTodo.completed_at = undefined
   }
-  console.log(newTodo)
   props.onSaved(newTodo)
 })
 </script>
@@ -56,11 +51,10 @@ const onSubmit = handleSubmit((value) => {
         <div class="flex flex-col gap-5">
           <Field name="title" v-slot="{ field, value }">
             <fwb-input v-bind="field" placeholder="Title" :model-value="value" />
-            <ErrorMessage name="title" as="p" />
+            <ErrorMessage name="title" />
           </Field>
           <Field name="description" v-slot="{ field, value }">
             <fwb-input v-bind="field" placeholder="Description" :model-value="value" />
-            <ErrorMessage name="title" as="p" />
           </Field>
           <Field
             v-if="props.todo == undefined"

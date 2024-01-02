@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import UsersPage from '../views/UsersPage.vue'
 import UserPage from '../views/UserPage.vue'
 import NewUser from '../views/NewUser.vue'
-import PutUser from '../views/PutUser.vue'
+import EditUser from '../views/EditUser.vue'
 import DeleteUser from '../views/DeleteUser.vue'
 import LoginUser from '../views/LoginUser.vue'
 import HomeUser from '../views/HomeUser.vue'
@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/users/:id/edit',
       name: 'putuser',
-      component: PutUser,
+      component: EditUser,
       beforeEnter: [check_session, check_user]
     },
     {
