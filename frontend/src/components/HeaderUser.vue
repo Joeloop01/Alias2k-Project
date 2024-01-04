@@ -21,16 +21,22 @@ function onLogout() {
 
 <template>
   <header class="flex gap-5 p-6 bg-primary-600">
-    <fwb-heading tag="h1" class="font-bold text-primary-900" href="/">
+    <fwb-heading tag="h1" class="font-bold text-primary-950" href="/">
       <a href="/">VueOne</a>
     </fwb-heading>
     <div v-if="useSession().token != null" class="relative flex align-middle gap-6o">
       <button
         class="flex text-sm rounded-full md:me-0 md:focus:ring-4 md:focus:ring-green-500"
         type="button"
+        name="showInformation"
         @click="onCLick()"
       >
-        <img class="rounded-full" src="https://picsum.photos/60" alt="user photo" />
+        <img
+          class="w-16 rounded-full"
+          src="./icons/image_placeholder.png"
+          alt="placeholder"
+          name="placeholder"
+        />
       </button>
       <div
         v-if="showButton"

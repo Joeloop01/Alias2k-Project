@@ -8,7 +8,7 @@ use tower_http::cors::CorsLayer;
 use axum::{middleware, Router};
 use sqlx::{mysql::MySqlPoolOptions, MySql, Pool};
 
-use crate::endpoints::*;
+use crate::endpoints::{authentication, secrets, todos, users};
 #[derive(Clone)]
 pub struct AppState {
     pool: Pool<MySql>,
@@ -20,7 +20,7 @@ async fn main() {
     let dburl = std::env::var("DATABASE_URL").expect("DATABASE_URL not set");
     let host = std::env::var("HOST").expect("HOST not set");
     let port = std::env::var("PORT").expect("PORT not set");
-    let address = format!("{}:{}", host, port);
+    let address = format!("{host}:{port}");
     tracing_subscriber::fmt::init();
 
     let pool = MySqlPoolOptions::new()
@@ -46,7 +46,7 @@ async fn main() {
         .with_state(state);
 
     let address = SocketAddr::from_str(&address).expect("invalid address");
-    println!("Listen to {}", address);
+    println!("Listen to {address}");
     axum::Server::bind(&address)
         .serve(app.into_make_service())
         .await

@@ -83,7 +83,9 @@ const onSubmit = handleSubmit((value) => {
       </template>
       <template #footer>
         <div class="flex justify-end">
-          <fwb-button type="submit" class="bg-primary-600">Confirm</fwb-button>
+          <fwb-button type="submit" class="bg-primary-700 hover:bg-primary-800">
+            Confirm
+          </fwb-button>
         </div>
       </template>
     </fwb-modal>

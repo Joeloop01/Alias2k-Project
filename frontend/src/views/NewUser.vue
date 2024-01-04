@@ -24,10 +24,16 @@ const onSubmit = handleSubmit(async (value) => {
 </script>
 
 <template>
-  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-light text-green-400">
+  <head>
+    <meta name="description" content="Create a new user" />
+  </head>
+  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-light text-primary-950">
     New User
   </fwb-heading>
-  <form @submit="onSubmit" class="flex flex-col items-stretch max-w-md gap-4 mx-auto">
+  <form
+    @submit="onSubmit"
+    class="flex flex-col items-stretch max-w-md gap-4 mx-auto text-primary-950"
+  >
     <Field name="name" v-slot="{ field }">
       <fwb-input v-bind="field" placeholder="Name" />
     </Field>
@@ -39,8 +45,9 @@ const onSubmit = handleSubmit(async (value) => {
       <fwb-input v-bind="field" placeholder="Password" type="password" />
       <ErrorMessage name="password" />
     </Field>
-    <div>
-      <fwb-button color="green" class="flex mx-auto my-5">submit</fwb-button>
-    </div>
+
+    <fwb-button color="green" class="flex mx-auto my-5 bg-primary-700 hover:bg-primary-800">
+      Submit
+    </fwb-button>
   </form>
 </template>

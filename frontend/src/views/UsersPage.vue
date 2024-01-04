@@ -10,7 +10,8 @@ import {
   FwbTableHead,
   FwbTableHeadCell,
   FwbTableRow,
-  FwbA
+  FwbA,
+  FwbButton
 } from 'flowbite-vue'
 import dayjs from 'dayjs'
 import { useSession } from '@/stores/token'
@@ -59,6 +60,9 @@ function closeDeleteModal() {
 </script>
 
 <template>
+  <head>
+    <meta name="users page" content="show all users. Accessible only from admin" />
+  </head>
   <div class="mt-4 md:gap-3 md:flex">
     <fwb-input v-model="nameOrEmail" class="flex-1" placeholder="Search a user" label="User:" />
     <br />
@@ -76,8 +80,7 @@ function closeDeleteModal() {
       <fwb-table-head-cell> Email </fwb-table-head-cell>
       <fwb-table-head-cell> Created at </fwb-table-head-cell>
       <fwb-table-head-cell> Updated at </fwb-table-head-cell>
-      <fwb-table-head-cell> <span class="sr-only">Edit</span></fwb-table-head-cell>
-      <fwb-table-head-cell> <span class="sr-only">Remove</span></fwb-table-head-cell>
+      <fwb-table-head-cell> <span class="sr-only">Edit and Remove</span></fwb-table-head-cell>
     </fwb-table-head>
     <fwb-table-body>
       <fwb-table-row v-for="user of filtered" v-bind:key="user.id" class="text-primary-950">
@@ -95,16 +98,14 @@ function closeDeleteModal() {
           Day: {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }} <br />
           Hour: {{ dayjs(user.updated_at).format(' h:mm:ss ') }}
         </fwb-table-cell>
-        <fwb-table-cell>
-          <fwb-a :href="`${userPath}${user.id.toString()}` + `/edit`" class="text-primary-950"
-            >Edit</fwb-a
+        <fwb-table-cell class="flex justify-center gap-10">
+          <fwb-button
+            :href="`${userPath}${user.id.toString()}` + `/edit`"
+            class="bg-primary-700 hover:bg-primary-800"
           >
-        </fwb-table-cell>
-        <fwb-table-cell
-          @click="openDeleteUserModal(user.id)"
-          class="cursor-pointer hover:underline"
-        >
-          Remove
+            Edit
+          </fwb-button>
+          <fwb-button color="red" @click="openDeleteUserModal(user.id)"> Remove</fwb-button>
         </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>

@@ -45,7 +45,7 @@ pub fn router_sign_in(state: AppState) -> Router<AppState> {
     Router::new()
         .route("/auth/signin", routing::any(sign_in))
         .route_layer(middleware::from_fn_with_state(
-            state.clone(),
+            state,
             middlewares::secret::authentication_secret,
         ))
 }
@@ -58,7 +58,7 @@ pub fn router_refresh_token(state: AppState) -> Router<AppState> {
     Router::new()
         .route("/auth/refreshtoken", routing::any(refresh_token))
         .route_layer(middleware::from_fn_with_state(
-            state.clone(),
+            state,
             middlewares::token::authentication_refresh_token,
         ))
 }

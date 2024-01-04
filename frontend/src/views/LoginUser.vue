@@ -26,7 +26,10 @@ const onSubmit = handleSubmit(async (value) => {
 </script>
 
 <template>
-  <fwb-heading tag="h1" class="flex justify-center mt-12 mb-6 font-thin text-green-400">
+  <head>
+    <meta name="description" content="Login user" />
+  </head>
+  <fwb-heading tag="h1" class="flex justify-center mt-12 mb-6 font-thin text-primary-950">
     Login
   </fwb-heading>
   <form @submit="onSubmit">
@@ -44,8 +47,10 @@ const onSubmit = handleSubmit(async (value) => {
       </Field>
     </div>
     <div class="flex justify-center gap-5 my-10">
-      <fwb-button color="green"> Confirm </fwb-button>
-      <fwb-button color="green" href="/users/new"> Create new user </fwb-button>
+      <fwb-button class="bg-primary-700 hover:bg-primary-800"> Confirm</fwb-button>
+      <fwb-button class="bg-primary-700 hover:bg-primary-800" href="/users/new">
+        Create new user
+      </fwb-button>
     </div>
   </form>
 </template>
