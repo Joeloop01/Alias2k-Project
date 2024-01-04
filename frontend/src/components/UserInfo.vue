@@ -75,26 +75,30 @@ function isClicked(todoData: Todo) {
 </script>
 
 <template>
-  <div class="flex flex-col items-center my-10">
-    <img src="https://picsum.photos/300" class="m-16 rounded-full shadow-xl" />
-    <fwb-heading tag="h1" class="mb-6 font-medium text-center">
-      {{ userData?.name }}
-      <span v-if="userData?.admin == 1" class="text-xl font-medium text-slate-500"> (Admin) </span>
-    </fwb-heading>
-    <fwb-heading tag="h5" class="mb-6 font-medium text-center text-slate-500">
-      Contact: {{ userData?.email }}
-    </fwb-heading>
+  <meta name="description" content="Shows user information, completed and not completed todos" />
+  <div class="flex my-5">
+    <img src="https://picsum.photos/100" class="m-5 mr-10 rounded-full shadow-xl" />
+    <div class="flex-col my-auto">
+      <fwb-heading tag="h2" class="font-medium text-primary-900">
+        {{ userData?.name }}
+        <span v-if="userData?.admin == 1" class="mt-2 text-lg font-medium"> (Admin) </span>
+      </fwb-heading>
+      <fwb-heading tag="h5" class="font-medium text-primary-700">
+        Contact:
+        <div>{{ userData?.email }}</div>
+      </fwb-heading>
+    </div>
   </div>
   <hr />
   <hr />
   <div class="flex my-5">
-    <fwb-heading tag="h2" class="font-light leading-normal text-green-500">TODOS</fwb-heading>
-    <fwb-button @click="openNewTodoModal" color="green" class="flex-shrink-0">
+    <fwb-heading tag="h2" class="font-light leading-normal text-primary-900">TODOS</fwb-heading>
+    <fwb-button @click="openNewTodoModal" class="flex-shrink-0 bg-primary-600 text-primary-900">
       New Todo
     </fwb-button>
   </div>
 
-  <fwb-heading tag="h4" class="my-5 font-light text-green-500">Not completed</fwb-heading>
+  <fwb-heading tag="h4" class="my-5 font-light text-primary-900">Not completed</fwb-heading>
 
   <fwb-table hoverable>
     <fwb-table-body>
@@ -109,8 +113,10 @@ function isClicked(todoData: Todo) {
           </fwb-table-cell>
           <fwb-table-cell v-if="todo.completed_at == undefined" @click="openEditTodoModal(todo)">
             <div class="text-start md:mx-0">
-              <fwb-heading tag="h5" class="font-semibold">{{ todo.title }}</fwb-heading>
-              <div class="font-normal break-all text-slate-500">
+              <fwb-heading tag="h5" class="font-semibold cursor-pointer text-primary-900">
+                {{ todo.title }}
+              </fwb-heading>
+              <div class="font-normal break-all cursor-pointer text-slate-500">
                 {{ todo.description }}
               </div>
             </div>
@@ -120,7 +126,7 @@ function isClicked(todoData: Todo) {
     </fwb-table-body>
   </fwb-table>
 
-  <fwb-heading tag="h4" class="my-5 font-light text-green-500">Completed</fwb-heading>
+  <fwb-heading tag="h4" class="my-5 font-light text-primary-900">Completed</fwb-heading>
 
   <fwb-table hoverable class="my-5">
     <fwb-table-body>
@@ -135,8 +141,10 @@ function isClicked(todoData: Todo) {
           </fwb-table-cell>
           <fwb-table-cell v-if="todo.completed_at != undefined" @click="openEditTodoModal(todo)">
             <div class="text-start md:mx-0">
-              <fwb-heading tag="h5" class="font-semibold">{{ todo.title }}</fwb-heading>
-              <div class="font-normal break-all text-slate-500">
+              <fwb-heading tag="h5" class="font-semibold cursor-pointer text-primary-900">
+                {{ todo.title }}
+              </fwb-heading>
+              <div class="font-normal break-all cursor-pointer text-slate-500">
                 {{ todo.description }}
               </div>
             </div>

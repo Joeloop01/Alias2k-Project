@@ -20,9 +20,9 @@ function onLogout() {
 </script>
 
 <template>
-  <header class="flex gap-5 p-6 bg-green-200">
-    <fwb-heading tag="h1" class="font-light" color="text-green-500" href="/">
-      <a href="/">SimVue</a>
+  <header class="flex gap-5 p-6 bg-primary-600">
+    <fwb-heading tag="h1" class="font-bold text-primary-900" href="/">
+      <a href="/">VueOne</a>
     </fwb-heading>
     <div v-if="useSession().token != null" class="relative flex align-middle gap-6o">
       <button

@@ -31,7 +31,7 @@ const onSubmit = handleSubmit(async (value) => {
 </script>
 
 <template>
-  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-light text-green-400">
+  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-light text-primary-950">
     Edit User
   </fwb-heading>
   <form @submit="onSubmit">
@@ -43,6 +43,6 @@ const onSubmit = handleSubmit(async (value) => {
         <fwb-input v-bind="field" label="Update your email" :model-value="value" />
       </Field>
     </div>
-    <fwb-button color="green" class="flex mx-auto my-10">submit</fwb-button>
+    <fwb-button class="flex mx-auto my-10 bg-primary-600 text-primary-950">submit</fwb-button>
   </form>
 </template>

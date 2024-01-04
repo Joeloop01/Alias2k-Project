@@ -43,7 +43,7 @@ const onSubmit = handleSubmit((value) => {
   <form @submit="onSubmit">
     <fwb-modal @close="onClosed">
       <template #header>
-        <fwb-heading tag="h3" class="font-light" color="text-green-400">
+        <fwb-heading tag="h3" class="font-light" color="text-primary-900">
           {{ headerText }}
         </fwb-heading>
       </template>
@@ -83,7 +83,7 @@ const onSubmit = handleSubmit((value) => {
       </template>
       <template #footer>
         <div class="flex justify-end">
-          <fwb-button type="submit" color="green">Confirm</fwb-button>
+          <fwb-button type="submit" class="bg-primary-600">Confirm</fwb-button>
         </div>
       </template>
     </fwb-modal>

@@ -4,6 +4,7 @@ use axum::{extract::State, response::IntoResponse, Json};
 use axum::{middleware, routing, Router};
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha512};
 use sqlx::{MySql, Pool};
 
 use crate::{middlewares, AppState};
@@ -88,11 +89,13 @@ pub async fn post(
     State(state): State<AppState>,
     Json(payload): Json<NewUser>,
 ) -> impl IntoResponse {
+    let mut encoded_password = Sha512::new();
+    encoded_password.update(payload.password);
     sqlx::query!(
         "insert into user (name,email,password,admin) values (?,?,?,false)",
         payload.name,
         payload.email,
-        payload.password,
+        format!("{:x}", encoded_password.finalize()),
     )
     .execute(&state.pool)
     .await
@@ -104,11 +107,13 @@ pub async fn post_admin(
     State(state): State<AppState>,
     Json(payload): Json<NewUser>,
 ) -> impl IntoResponse {
+    let mut encoded_password = Sha512::new();
+    encoded_password.update(payload.password);
     sqlx::query!(
         "insert into user (name,email,password,admin) values (?,?,?,true)",
         payload.name,
         payload.email,
-        payload.password,
+        format!("{:x}", encoded_password.finalize()),
     )
     .execute(&state.pool)
     .await
@@ -122,6 +127,8 @@ pub async fn put(
     Json(payload): Json<NewUser>,
 ) -> impl IntoResponse {
     let result = find_one(&state.pool, id).await;
+    let mut encoded_password = Sha512::new();
+    encoded_password.update(payload.password);
     if result.is_none() {
         return StatusCode::NOT_FOUND.into_response();
     }
@@ -129,7 +136,7 @@ pub async fn put(
         "update user set name = ?, email = ?, password = ? where id = ?",
         payload.name,
         payload.email,
-        payload.password,
+        format!("{:x}", encoded_password.finalize()),
         id
     )
     .execute(&state.pool)
@@ -148,11 +155,14 @@ pub async fn patch(
         return StatusCode::NOT_FOUND.into_response();
     }
     let result = result.unwrap();
+    let password = payload.password.unwrap_or(result.password);
+    let mut encoded_password = Sha512::new();
+    encoded_password.update(password);
     sqlx::query!(
         "update user set name = ?, email = ?, password = ? where id = ?",
         payload.name.unwrap_or(result.name),
         payload.email.unwrap_or(result.email),
-        payload.password.unwrap_or(result.password),
+        format!("{:x}", encoded_password.finalize()),
         id
     )
     .execute(&state.pool)

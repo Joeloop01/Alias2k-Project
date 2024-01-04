@@ -64,11 +64,13 @@ pub fn router_refresh_token(state: AppState) -> Router<AppState> {
 }
 
 pub async fn find_one(pool: &Pool<MySql>, email: String, password: String) -> Option<Id> {
+    let mut encoded_password = Sha512::new();
+    encoded_password.update(password);
     sqlx::query_as!(
         Id,
         "SELECT id FROM user WHERE email = ? AND password = ? AND deleted_at IS NULL",
         email,
-        password
+        format!("{:x}", encoded_password.finalize())
     )
     .fetch_optional(pool)
     .await

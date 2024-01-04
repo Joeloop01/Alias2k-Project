@@ -2,9 +2,7 @@
 import type { EditUser } from '@/api/users'
 import { useRoute } from 'vue-router'
 import { get } from '@/api/users'
-
 import { useSession } from '@/stores/token'
-
 import EditUserComponent from '@/components/EditUserComponent.vue'
 import { ref } from 'vue'
 

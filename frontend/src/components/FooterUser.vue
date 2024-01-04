@@ -3,7 +3,7 @@ import { FwbFooter } from 'flowbite-vue'
 </script>
 
 <template>
-  <fwb-footer sticky class="relative flex text-green-500 bg-green-200">
+  <fwb-footer sticky class="relative flex bg-primary-600 text-primary-950">
     Created by Simone Giotti. Email: simgiot@gmail.com
   </fwb-footer>
 </template>

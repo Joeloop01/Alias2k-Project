@@ -21,7 +21,6 @@ const url = "http://127.0.0.1:6969/users";
 
 export async function getAll(token: string): Promise<User[]> {
     const response = await fetch(url, {
-        mode: "cors",
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -33,7 +32,6 @@ export async function getAll(token: string): Promise<User[]> {
 
 export async function get(id: string, token: string): Promise<User> {
     const response = await fetch(url + "/" + id, {
-        mode: "cors",
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -45,7 +43,6 @@ export async function get(id: string, token: string): Promise<User> {
 
 export async function post(data: NewUser) {
     await fetch(url, {
-        mode: "cors",
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -57,7 +54,6 @@ export async function post(data: NewUser) {
 
 export async function put(data: EditUser, id: string, token: string) {
     await fetch(url + "/" + id, {
-        mode: "cors",
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -69,7 +65,6 @@ export async function put(data: EditUser, id: string, token: string) {
 
 export async function delete_user(id: string, token: string) {
     await fetch(url + "/" + id, {
-        mode: "cors",
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

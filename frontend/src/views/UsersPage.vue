@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { delete_user, getAll } from '@/api/users'
+import { getAll } from '@/api/users'
 import { ref, computed } from 'vue'
 import type { User } from '@/api/users'
 import {
@@ -14,8 +14,11 @@ import {
 } from 'flowbite-vue'
 import dayjs from 'dayjs'
 import { useSession } from '@/stores/token'
+import DeleteUserModal from '@/components/DeleteUserModal.vue'
 
 let session = useSession()
+let deleteUser = ref<boolean>(false)
+let userId = ref<number | null>()
 
 let data = ref<User[] | null>(null)
 getAll(session.token!.token).then((d) => (data.value = d))
@@ -45,9 +48,13 @@ const filtered = computed(() => {
   return list
 })
 
-async function onRemove(user: User) {
-  await delete_user(user.id.toString(), session.token!.token)
-  location.reload()
+function openDeleteUserModal(id: number) {
+  deleteUser.value = true
+  userId.value = id
+}
+
+function closeDeleteModal() {
+  deleteUser.value = false
 }
 </script>
 
@@ -63,7 +70,7 @@ async function onRemove(user: User) {
   </div>
   <br />
 
-  <fwb-table>
+  <fwb-table hoverable>
     <fwb-table-head>
       <fwb-table-head-cell> Name </fwb-table-head-cell>
       <fwb-table-head-cell> Email </fwb-table-head-cell>
@@ -73,9 +80,11 @@ async function onRemove(user: User) {
       <fwb-table-head-cell> <span class="sr-only">Remove</span></fwb-table-head-cell>
     </fwb-table-head>
     <fwb-table-body>
-      <fwb-table-row v-for="user of filtered" v-bind:key="user.id">
+      <fwb-table-row v-for="user of filtered" v-bind:key="user.id" class="text-primary-950">
         <fwb-table-cell>
-          <fwb-a :href="`${userPath}${user.id.toString()}`">{{ user.name }}</fwb-a>
+          <fwb-a :href="`${userPath}${user.id.toString()}`" class="text-primary-950">{{
+            user.name
+          }}</fwb-a>
         </fwb-table-cell>
         <fwb-table-cell>{{ user.email }}</fwb-table-cell>
         <fwb-table-cell>
@@ -87,11 +96,20 @@ async function onRemove(user: User) {
           Hour: {{ dayjs(user.updated_at).format(' h:mm:ss ') }}
         </fwb-table-cell>
         <fwb-table-cell>
-          <fwb-a :href="`${userPath}${user.id.toString()}` + `/edit`">Edit</fwb-a>
+          <fwb-a :href="`${userPath}${user.id.toString()}` + `/edit`" class="text-primary-950"
+            >Edit</fwb-a
+          >
         </fwb-table-cell>
-        <fwb-table-cell @click="onRemove(user)" class="hover:underline"> Remove </fwb-table-cell>
+        <fwb-table-cell
+          @click="openDeleteUserModal(user.id)"
+          class="cursor-pointer hover:underline"
+        >
+          Remove
+        </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>
   </fwb-table>
   <br />
+
+  <DeleteUserModal v-if="deleteUser" :id="userId!" :onClose="closeDeleteModal" />
 </template>

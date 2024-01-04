@@ -3,7 +3,6 @@ import UsersPage from '../views/UsersPage.vue'
 import UserPage from '../views/UserPage.vue'
 import NewUser from '../views/NewUser.vue'
 import EditUser from '../views/EditUser.vue'
-import DeleteUser from '../views/DeleteUser.vue'
 import LoginUser from '../views/LoginUser.vue'
 import HomeUser from '../views/HomeUser.vue'
 import { useSession } from '@/stores/token'
@@ -47,11 +46,6 @@ const router = createRouter({
       name: 'putuser',
       component: EditUser,
       beforeEnter: [check_session, check_user]
-    },
-    {
-      path: '/users/:id/delete',
-      name: 'deleteuser',
-      component: DeleteUser
     }
   ]
 })
