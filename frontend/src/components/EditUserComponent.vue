@@ -34,7 +34,7 @@ const onSubmit = handleSubmit(async (value) => {
   <head>
     <meta name="description" content="edit user" />
   </head>
-  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-light text-primary-950">
+  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-normal text-primary-950">
     Edit User
   </fwb-heading>
   <form @submit="onSubmit">

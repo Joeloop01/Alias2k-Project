@@ -20,9 +20,16 @@ function onLogout() {
 </script>
 
 <template>
-  <header class="flex gap-5 p-6 bg-primary-600">
-    <fwb-heading tag="h1" class="font-bold text-primary-950" href="/">
-      <a href="/">VueOne</a>
+  <header class="flex gap-5 p-6 bg-neutral-900">
+    <fwb-heading tag="h1" class="flex font-bold text-primary-600">
+      <a href="/" class="flex gap-3 my-auto leading-none">
+        <img
+          class="my-auto mt-4 rounded-full w-7 h-7 bg-primary-600"
+          src="./icons/home_button.png"
+          alt="placeholder"
+          name="placeholder"
+        />VueOne</a
+      >
     </fwb-heading>
     <div v-if="useSession().token != null" class="relative flex align-middle gap-6o">
       <button
@@ -32,7 +39,7 @@ function onLogout() {
         @click="onCLick()"
       >
         <img
-          class="w-16 rounded-full"
+          class="w-16 rounded-full ring-2 ring-primary-600"
           src="./icons/image_placeholder.png"
           alt="placeholder"
           name="placeholder"
@@ -40,12 +47,12 @@ function onLogout() {
       </button>
       <div
         v-if="showButton"
-        class="absolute right-0 z-10 my-16 mr-0 bg-white divide-y divide-gray-100 rounded-lg shadow md:-top-3 md:my-20 w-44"
+        class="absolute right-0 z-10 my-16 mr-0 divide-y rounded-lg shadow bg-neutral-100 divide-neutral-300 md:-top-3 md:my-20 w-44"
       >
-        <div class="px-4 py-3 text-sm text-black">
+        <div class="px-4 py-3 text-sm text-neutral-900">
           <p>
             <span>{{ user?.name }}</span>
-            <span v-if="user?.admin == 1" class="text-gray-400"> (admin)</span>
+            <span v-if="user?.admin == 1"> (admin)</span>
           </p>
           <div class="font-medium truncate">{{ user?.email }}</div>
         </div>

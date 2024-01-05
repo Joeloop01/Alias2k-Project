@@ -75,7 +75,7 @@ function closeDeleteModal() {
   <br />
 
   <fwb-table hoverable>
-    <fwb-table-head>
+    <fwb-table-head class="text-gray-900 bg-primary-600">
       <fwb-table-head-cell> Name </fwb-table-head-cell>
       <fwb-table-head-cell> Email </fwb-table-head-cell>
       <fwb-table-head-cell> Created at </fwb-table-head-cell>

@@ -27,7 +27,7 @@ const onSubmit = handleSubmit(async (value) => {
   <head>
     <meta name="description" content="Create a new user" />
   </head>
-  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-light text-primary-950">
+  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-bold text-primary-950">
     New User
   </fwb-heading>
   <form
@@ -46,8 +46,8 @@ const onSubmit = handleSubmit(async (value) => {
       <ErrorMessage name="password" />
     </Field>
 
-    <fwb-button color="green" class="flex mx-auto my-5 bg-primary-700 hover:bg-primary-800">
-      Submit
+    <fwb-button color="green" class="flex mx-auto my-5 bg-primary-600 hover:bg-primary-700">
+      <div class="font-bold text-neutral-900">Submit</div>
     </fwb-button>
   </form>
 </template>

@@ -33,7 +33,10 @@ const onSubmit = handleSubmit((value) => {
     completed_at: undefined
   }
   if (props.todo?.completed_at != undefined || value.isCompleted != undefined) {
-    newTodo.completed_at = dayjs(props.todo?.completed_at).format('YYYY-MM-DDTHH:mm:ss')
+    newTodo.completed_at = dayjs(props.todo?.completed_at)
+      .add(-1, 'hours')
+      .format('YYYY-MM-DDTHH:mm:ss')
+    console.log(newTodo.completed_at)
   }
   props.onSaved(newTodo)
 })
@@ -43,7 +46,7 @@ const onSubmit = handleSubmit((value) => {
   <form @submit="onSubmit">
     <fwb-modal @close="onClosed">
       <template #header>
-        <fwb-heading tag="h3" class="font-light" color="text-primary-900">
+        <fwb-heading tag="h3" class="font-bold" color="text-primary-900">
           {{ headerText }}
         </fwb-heading>
       </template>
@@ -67,24 +70,24 @@ const onSubmit = handleSubmit((value) => {
         </div>
         <div v-if="props.todo != undefined" class="flex flex-col mt-3">
           <div>
-            Created at day: {{ dayjs(todo!.created_at).format(' DD/MM/YYYY ') }} hour:
-            {{ dayjs(todo!.created_at).add(1, 'hour').format(' h:mm:ss ') }}
+            Created at:{{ dayjs(todo!.created_at).format(' DD/MM/YYYY ') }}
+            {{ dayjs(todo!.created_at).format(' h:mm:ss A') }}
           </div>
           <div>
-            Last update at day: {{ dayjs(todo!.updated_at).format(' DD/MM/YYYY ') }} hour:
-            {{ dayjs(todo!.updated_at).add(1, 'hour').format(' h:mm:ss ') }}
+            Last update:{{ dayjs(todo!.updated_at).format(' DD/MM/YYYY ') }}
+            {{ dayjs(todo!.updated_at).format(' h:mm:ss A') }}
           </div>
           <div v-if="todo?.completed_at != undefined">
-            Completed at day:
-            {{ dayjs(todo!.completed_at).format(' DD/MM/YYYY ') }} hour:
-            {{ dayjs(todo!.completed_at).format(' h:mm:ss ') }}
+            Completed at:
+            {{ dayjs(todo!.completed_at).format(' DD/MM/YYYY ') }}
+            {{ dayjs(todo!.completed_at).format(' h:mm:ss A') }}
           </div>
         </div>
       </template>
       <template #footer>
         <div class="flex justify-end">
-          <fwb-button type="submit" class="bg-primary-700 hover:bg-primary-800">
-            Confirm
+          <fwb-button type="submit" class="bg-primary-600 hover:bg-primary-700">
+            <div class="text-neutral-900">Confirm</div>
           </fwb-button>
         </div>
       </template>

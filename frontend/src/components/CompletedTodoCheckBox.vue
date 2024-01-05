@@ -25,7 +25,9 @@ const { handleSubmit } = useForm<CheckBoxType>({
 const onSubmit = handleSubmit((value) => {
   let newTodoData: NewTodo = props.todoData
   if (!value.isCompleted) {
-    newTodoData.completed_at = dayjs(new Date().toString()).format('YYYY-MM-DDTHH:mm:ss')
+    newTodoData.completed_at = dayjs(new Date().toString())
+      .add(-1, 'hours')
+      .format('YYYY-MM-DDTHH:mm:ss')
   } else {
     newTodoData.completed_at = undefined
   }
@@ -44,7 +46,7 @@ const onSubmit = handleSubmit((value) => {
   </head>
   <form @click="onSubmit" class="m-5">
     <Field name="isCompleted" type="checkbox" v-slot="{ field, value }">
-      <fwb-checkbox v-bind="field" :model-value="value" />
+      <fwb-checkbox v-bind="field" :model-value="value" class="border-gray-900" />
     </Field>
   </form>
 </template>
