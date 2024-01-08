@@ -46,7 +46,7 @@ const onSubmit = handleSubmit((value) => {
   </head>
   <form @click="onSubmit" class="m-5">
     <Field name="isCompleted" type="checkbox" v-slot="{ field, value }">
-      <fwb-checkbox v-bind="field" :model-value="value" class="border-gray-900" />
+      <fwb-checkbox v-bind="field" :model-value="value" class="border rounded border-neutral-900" />
     </Field>
   </form>
 </template>

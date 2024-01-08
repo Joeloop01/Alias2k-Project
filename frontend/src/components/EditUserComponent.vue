@@ -34,22 +34,36 @@ const onSubmit = handleSubmit(async (value) => {
   <head>
     <meta name="description" content="edit user" />
   </head>
-  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-normal text-primary-950">
+  <fwb-heading tag="h2" class="flex justify-center mt-10 mb-6 font-bold text-primary-950">
     Edit User
   </fwb-heading>
   <form @submit="onSubmit">
     <div class="flex flex-col items-stretch max-w-md gap-4 mx-auto">
       <Field name="name" v-slot="{ field, value }">
         <label>
-          <fwb-input v-bind="field" :model-value="value" autocomplete="off" placeholder="Name" />
+          <fwb-input
+            v-bind="field"
+            :model-value="value"
+            autocomplete="off"
+            placeholder="Name"
+            class="border-neutral-900 focus:border focus:border-primary-600"
+          />
         </label>
       </Field>
       <Field name="email" v-slot="{ field, value }">
         <label>
-          <fwb-input v-bind="field" :model-value="value" autocomplete="off" placeholder="Email" />
+          <fwb-input
+            v-bind="field"
+            :model-value="value"
+            autocomplete="off"
+            placeholder="Email"
+            class="border-neutral-900 focus:border focus:border-primary-600"
+          />
         </label>
       </Field>
     </div>
-    <fwb-button class="flex mx-auto my-10 bg-primary-700 hover:bg-primary-800"> Submit </fwb-button>
+    <fwb-button class="flex mx-auto my-10 bg-primary-600 hover:bg-primary-700"
+      ><span class="font-bold text-neutral-900"> Submit</span>
+    </fwb-button>
   </form>
 </template>

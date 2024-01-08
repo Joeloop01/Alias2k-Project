@@ -18,7 +18,7 @@ if (useSession().token != null) {
 
 <template>
   <head>
-    <meta name="Home user" contents="Shows user info when logged. Homepage" />
+    <meta name="description" contents="Shows user info when logged. Homepage" />
   </head>
   <div v-if="user != null">
     <userInfo :id="user!.id.toString()" />

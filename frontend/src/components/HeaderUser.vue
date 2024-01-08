@@ -20,11 +20,11 @@ function onLogout() {
 </script>
 
 <template>
-  <header class="flex gap-5 p-6 bg-neutral-900">
+  <header class="flex p-6 bg-neutral-900">
     <fwb-heading tag="h1" class="flex font-bold text-primary-600">
-      <a href="/" class="flex gap-3 my-auto leading-none">
+      <a href="/" class="flex gap-3 leading-none">
         <img
-          class="my-auto mt-4 rounded-full w-7 h-7 bg-primary-600"
+          class="my-auto rounded-full w-7 h-7 bg-primary-600"
           src="./icons/home_button.png"
           alt="placeholder"
           name="placeholder"

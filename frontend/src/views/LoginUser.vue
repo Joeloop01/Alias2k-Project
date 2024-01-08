@@ -20,6 +20,7 @@ const { handleSubmit } = useForm<LoginSchema>({
 })
 
 const onSubmit = handleSubmit(async (value) => {
+  error.value = false
   await signIn(value).catch(() => (error.value = true))
   if (!error.value) router.push({ path: '/' })
 })
@@ -27,7 +28,7 @@ const onSubmit = handleSubmit(async (value) => {
 
 <template>
   <head>
-    <meta name="description" content="Login user" />
+    <meta name="description" content="Login user with username and password " />
   </head>
   <fwb-heading tag="h1" class="flex justify-center mt-12 mb-6 font-bold text-primary-950">
     Login
@@ -38,19 +39,30 @@ const onSubmit = handleSubmit(async (value) => {
         Email or password are incorrect. Please retry.
       </fwb-alert>
       <Field name="email" v-slot="{ field }">
-        <fwb-input v-bind="field" placeholder="Enter your email" autocomplete="on" />
+        <fwb-input
+          v-bind="field"
+          placeholder="Enter your email"
+          autocomplete="on"
+          class="border-neutral-900 focus:border focus:border-primary-600"
+        />
         <ErrorMessage name="email" />
       </Field>
       <Field name="password" v-slot="{ field }">
-        <fwb-input v-bind="field" placeholder="Enter your password" type="password" />
+        <fwb-input
+          v-bind="field"
+          placeholder="Enter your password"
+          type="password"
+          autocomplete="off"
+          class="border-neutral-900 focus:border focus:border-primary-600"
+        />
         <ErrorMessage name="password" />
       </Field>
     </div>
     <div class="flex justify-center gap-5 my-10">
-      <fwb-button class="bg-primary-600 hover:bg-primary-900">
+      <fwb-button class="bg-primary-600 hover:bg-primary-700">
         <div class="font-bold text-neutral-900">Confirm</div></fwb-button
       >
-      <fwb-button class="bg-primary-600 hover:bg-primary-900" href="/users/new">
+      <fwb-button class="bg-primary-600 hover:bg-primary-700" href="/users/new">
         <div class="font-bold text-neutral-900">Create new user</div>
       </fwb-button>
     </div>

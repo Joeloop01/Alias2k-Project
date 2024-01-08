@@ -43,6 +43,9 @@ const onSubmit = handleSubmit((value) => {
 </script>
 
 <template>
+  <head>
+    <meta name="description" contents="shows todo modal" />
+  </head>
   <form @submit="onSubmit">
     <fwb-modal @close="onClosed">
       <template #header>

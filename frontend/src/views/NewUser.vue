@@ -7,9 +7,9 @@ import { Field, useForm, ErrorMessage } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 
 const NEWUSER_SCHEMA = z.object({
-  name: z.string(),
+  name: z.string().min(3, 'Name must contain at least 3 character(s)'),
   email: z.string().email({ message: 'Must be a valid email' }),
-  password: z.string().min(3)
+  password: z.string().min(3, 'Password must contain at least 3 character(s)')
 })
 type NewUserSchema = z.infer<typeof NEWUSER_SCHEMA>
 
@@ -35,15 +35,32 @@ const onSubmit = handleSubmit(async (value) => {
     class="flex flex-col items-stretch max-w-md gap-4 mx-auto text-primary-950"
   >
     <Field name="name" v-slot="{ field }">
-      <fwb-input v-bind="field" placeholder="Name" />
+      <fwb-input
+        v-bind="field"
+        placeholder="Name"
+        class="border-neutral-900 focus:border focus:border-primary-600"
+        autocomplete="off"
+      />
+      <ErrorMessage class="text-sm" name="name" />
     </Field>
     <Field name="email" v-slot="{ field }">
-      <fwb-input v-bind="field" placeholder="Email" />
-      <ErrorMessage name="email" />
+      <fwb-input
+        v-bind="field"
+        placeholder="Email"
+        class="border-neutral-900 focus:border focus:border-primary-600"
+        autocomplete="off"
+      />
+      <ErrorMessage class="text-sm" name="email" />
     </Field>
     <Field name="password" v-slot="{ field }">
-      <fwb-input v-bind="field" placeholder="Password" type="password" />
-      <ErrorMessage name="password" />
+      <fwb-input
+        v-bind="field"
+        placeholder="Password"
+        type="password"
+        class="border-neutral-900 focus:border focus:border-primary-600"
+        autocomplete="off"
+      />
+      <ErrorMessage class="text-sm" name="password" />
     </Field>
 
     <fwb-button color="green" class="flex mx-auto my-5 bg-primary-600 hover:bg-primary-700">

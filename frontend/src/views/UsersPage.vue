@@ -72,10 +72,9 @@ function closeDeleteModal() {
       <fwb-input type="datetime-local" class="flex-1" v-model="to" label="To:" />
     </div>
   </div>
-  <br />
 
-  <fwb-table hoverable>
-    <fwb-table-head class="text-gray-900 bg-primary-600">
+  <fwb-table hoverable class="my-5">
+    <fwb-table-head class="bg-gray-900 text-primary-600">
       <fwb-table-head-cell> Name </fwb-table-head-cell>
       <fwb-table-head-cell> Email </fwb-table-head-cell>
       <fwb-table-head-cell> Created at </fwb-table-head-cell>
@@ -91,19 +90,18 @@ function closeDeleteModal() {
         </fwb-table-cell>
         <fwb-table-cell>{{ user.email }}</fwb-table-cell>
         <fwb-table-cell>
-          Day: {{ dayjs(user.created_at).format(' DD/MM/YYYY ') }} <br />
-          Hour: {{ dayjs(user.created_at).format(' h:mm:ss ') }}
+          {{ dayjs(user.created_at).format(' DD/MM/YYYY ') }}
+          {{ dayjs(user.created_at).format(' h:mm:ss A') }}
         </fwb-table-cell>
         <fwb-table-cell>
-          Day: {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }} <br />
-          Hour: {{ dayjs(user.updated_at).format(' h:mm:ss ') }}
+          {{ dayjs(user.updated_at).format(' DD/MM/YYYY ') }}
+          {{ dayjs(user.updated_at).format(' h:mm:ss A') }}
         </fwb-table-cell>
-        <fwb-table-cell class="flex justify-center gap-10">
+        <fwb-table-cell class="flex justify-center my-auto gap-14">
           <fwb-button
             :href="`${userPath}${user.id.toString()}` + `/edit`"
-            class="bg-primary-700 hover:bg-primary-800"
-          >
-            Edit
+            class="bg-primary-600 hover:bg-primary-700"
+            ><span class="text-neutral-900"> Edit </span>
           </fwb-button>
           <fwb-button color="red" @click="openDeleteUserModal(user.id)"> Remove</fwb-button>
         </fwb-table-cell>

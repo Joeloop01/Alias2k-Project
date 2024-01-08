@@ -67,105 +67,103 @@ getAllTodos(props.id, session.token!.token).then((d) => (todosData.value = d))
   <head>
     <meta name="description" contents="displays user info and todos" />
   </head>
-  <div class="">
-    <div class="flex my-5">
-      <img
-        src="./icons/image_placeholder.png"
-        alt="placeholder"
-        name="placeholder"
-        class="w-20 m-5 mr-10 rounded-full shadow-xl ring-2 ring-primary-600"
-      />
-      <div class="flex-col my-auto">
-        <fwb-heading tag="h2" class="font-bold text-neutral-900">
-          Hi, {{ userData?.name }}
-        </fwb-heading>
-      </div>
-    </div>
-
-    <div class="flex my-5">
-      <fwb-heading tag="h3" class="font-bold leading-normal text-primary-900">
-        Here's your todos!
-      </fwb-heading>
-      <fwb-button
-        @click="openNewTodoModal"
-        class="my-auto md:flex-shrink-0 md:my-0 bg-primary-600 hover:bg-primary-700"
-      >
-        <div class="font-bold text-neutral-900">New Todo</div>
-      </fwb-button>
-    </div>
-
-    <div class="border bg-primary-600 rounded-xl">
-      <div class="m-5">
-        <fwb-heading tag="h4" class="my-5 font-bold text-neutral-900">Not completed</fwb-heading>
-
-        <fwb-table hoverable>
-          <fwb-table-body>
-            <fwb-table-row
-              v-for="todo in todosData"
-              v-bind:key="todo.id"
-              v-auto-animate
-              class="overflow-hidden"
-            >
-              <div v-if="todo.completed_at == undefined">
-                <fwb-table-cell class="align-middle">
-                  <CompletedTodoCheckBox :todoData="todo" />
-                </fwb-table-cell>
-                <fwb-table-cell
-                  v-if="todo.completed_at == undefined"
-                  @click="openEditTodoModal(todo)"
-                >
-                  <div class="text-start md:mx-0">
-                    <fwb-heading tag="h5" class="font-semibold cursor-pointer text-neutral-900">
-                      {{ todo.title }}
-                    </fwb-heading>
-                    <div class="font-normal break-all cursor-pointer text-neutral-900">
-                      {{ todo.description }}
-                    </div>
-                  </div>
-                </fwb-table-cell>
-              </div>
-            </fwb-table-row>
-          </fwb-table-body>
-        </fwb-table>
-      </div>
-    </div>
-
-    <div class="mt-5 border bg-primary-600 rounded-xl">
-      <div class="m-5">
-        <fwb-heading tag="h4" class="my-5 font-bold text-neutral-900">Completed</fwb-heading>
-
-        <fwb-table hoverable class="my-5">
-          <fwb-table-body>
-            <fwb-table-row v-for="todo in todosData" v-bind:key="todo.id" v-auto-animate>
-              <div v-if="todo.completed_at != undefined">
-                <fwb-table-cell class="align-middle">
-                  <CompletedTodoCheckBox :todoData="todo" />
-                </fwb-table-cell>
-                <fwb-table-cell
-                  v-if="todo.completed_at != undefined"
-                  @click="openEditTodoModal(todo)"
-                >
-                  <div class="text-start md:mx-0">
-                    <fwb-heading tag="h5" class="font-semibold cursor-pointer text-neutral-900">
-                      {{ todo.title }}
-                    </fwb-heading>
-                    <div class="font-normal break-all cursor-pointer text-neutral-900">
-                      {{ todo.description }}
-                    </div>
-                  </div>
-                </fwb-table-cell>
-              </div>
-            </fwb-table-row>
-          </fwb-table-body>
-        </fwb-table>
-      </div>
-    </div>
-    <TodoModal
-      v-if="isEditTodoModal"
-      :todo="editTodo!"
-      :onClosed="closeEditModal"
-      :onSaved="(t) => onEditTodo(t, editTodo!.id.toString())"
+  <div class="flex my-5">
+    <img
+      src="./icons/image_placeholder.png"
+      alt="placeholder"
+      name="placeholder"
+      class="w-20 m-5 mr-10 rounded-full shadow-xl ring-2 ring-primary-600"
     />
-    <TodoModal v-if="isNewTodoModal" :onClosed="closeNewModal" :onSaved="onNewTodo" />
+    <div class="flex-col my-auto">
+      <fwb-heading tag="h2" class="font-bold text-neutral-900">
+        Hi, {{ userData?.name }}
+      </fwb-heading>
+    </div>
   </div>
+
+  <div class="flex my-5">
+    <fwb-heading tag="h3" class="font-bold leading-normal text-neutral-900">
+      Here's your todos!
+    </fwb-heading>
+    <fwb-button
+      @click="openNewTodoModal"
+      class="my-auto md:flex-shrink-0 md:my-0 bg-primary-600 hover:bg-primary-700"
+    >
+      <div class="font-bold text-neutral-900">New Todo</div>
+    </fwb-button>
+  </div>
+
+  <div class="border bg-neutral-900 rounded-xl">
+    <div class="m-5">
+      <fwb-heading tag="h4" class="my-5 text-primary-600">Not completed</fwb-heading>
+
+      <fwb-table hoverable>
+        <fwb-table-body>
+          <fwb-table-row
+            v-for="todo in todosData"
+            v-bind:key="todo.id"
+            v-auto-animate
+            class="overflow-hidden"
+          >
+            <div v-if="todo.completed_at == undefined">
+              <fwb-table-cell class="align-middle">
+                <CompletedTodoCheckBox :todoData="todo" />
+              </fwb-table-cell>
+              <fwb-table-cell
+                v-if="todo.completed_at == undefined"
+                @click="openEditTodoModal(todo)"
+              >
+                <div class="text-start md:mx-0">
+                  <fwb-heading tag="h5" class="font-semibold cursor-pointer text-neutral-900">
+                    {{ todo.title }}
+                  </fwb-heading>
+                  <div class="font-normal break-all cursor-pointer text-neutral-900">
+                    {{ todo.description }}
+                  </div>
+                </div>
+              </fwb-table-cell>
+            </div>
+          </fwb-table-row>
+        </fwb-table-body>
+      </fwb-table>
+    </div>
+  </div>
+
+  <div class="my-5 border bg-neutral-900 rounded-xl">
+    <div class="m-5">
+      <fwb-heading tag="h4" class="my-5 font-bold text-primary-600">Completed</fwb-heading>
+
+      <fwb-table hoverable class="my-5">
+        <fwb-table-body>
+          <fwb-table-row v-for="todo in todosData" v-bind:key="todo.id" v-auto-animate>
+            <div v-if="todo.completed_at != undefined">
+              <fwb-table-cell class="align-middle">
+                <CompletedTodoCheckBox :todoData="todo" />
+              </fwb-table-cell>
+              <fwb-table-cell
+                v-if="todo.completed_at != undefined"
+                @click="openEditTodoModal(todo)"
+              >
+                <div class="text-start md:mx-0">
+                  <fwb-heading tag="h5" class="font-semibold cursor-pointer text-neutral-900">
+                    {{ todo.title }}
+                  </fwb-heading>
+                  <div class="font-normal break-all cursor-pointer text-neutral-900">
+                    {{ todo.description }}
+                  </div>
+                </div>
+              </fwb-table-cell>
+            </div>
+          </fwb-table-row>
+        </fwb-table-body>
+      </fwb-table>
+    </div>
+  </div>
+  <TodoModal
+    v-if="isEditTodoModal"
+    :todo="editTodo!"
+    :onClosed="closeEditModal"
+    :onSaved="(t) => onEditTodo(t, editTodo!.id.toString())"
+  />
+  <TodoModal v-if="isNewTodoModal" :onClosed="closeNewModal" :onSaved="onNewTodo" />
 </template>
