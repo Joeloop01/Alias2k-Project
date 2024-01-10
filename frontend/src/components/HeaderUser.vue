@@ -33,7 +33,7 @@ function onLogout() {
     </fwb-heading>
     <div v-if="useSession().token != null" class="relative flex align-middle gap-6o">
       <button
-        class="flex text-sm rounded-full md:me-0 md:focus:ring-4 md:focus:ring-green-500"
+        class="flex text-sm rounded-full md:me-0 md:focus:ring-4 md:focus:ring-primary-600"
         type="button"
         name="showInformation"
         @click="onCLick()"
@@ -47,7 +47,7 @@ function onLogout() {
       </button>
       <div
         v-if="showButton"
-        class="absolute right-0 z-10 my-16 mr-0 divide-y rounded-lg shadow bg-neutral-100 divide-neutral-300 md:-top-3 md:my-20 w-44"
+        class="absolute right-0 z-10 my-16 mr-0 border divide-y rounded-lg shadow bg-neutral-100 divide-neutral-900 md:-top-3 md:my-20 w-44 border-neutral-900"
       >
         <div class="px-4 py-3 text-sm text-neutral-900">
           <p>
@@ -56,25 +56,28 @@ function onLogout() {
           </p>
           <div class="font-medium truncate">{{ user?.email }}</div>
         </div>
-        <ul class="py-2 text-sm text-gray-700">
+        <ul class="text-sm text-gray-700">
           <li>
-            <a href="/" class="block px-4 py-2 hover:bg-gray-100"> Home </a>
+            <a href="/" class="block px-4 py-2 hover:bg-primary-300"> Home </a>
           </li>
           <li>
-            <a href="/users" v-if="user?.admin == 1" class="block px-4 py-2 hover:bg-gray-100">
+            <a href="/users" v-if="user?.admin == 1" class="block px-4 py-2 hover:bg-primary-300">
               Show all users
             </a>
           </li>
           <li>
             <a
               :href="`/users/` + `${user?.id.toString()}` + `/edit`"
-              class="block px-4 py-2 hover:bg-gray-100"
+              class="block px-4 py-2 hover:bg-primary-300"
             >
               Edit
             </a>
           </li>
           <li>
-            <div class="block px-4 py-2 cursor-pointer hover:bg-gray-100" @click="onLogout">
+            <div
+              class="block px-4 py-2 cursor-pointer hover:bg-primary-300 hover:rounded-b-lg"
+              @click="onLogout"
+            >
               Logout
             </div>
           </li>
