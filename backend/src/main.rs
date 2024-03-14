@@ -33,13 +33,13 @@ async fn main() {
     let app = Router::new()
         .merge(users::router())
         .merge(todos::router())
-        .merge(secrets::router())
         .merge(authentication::router_user_info())
         .route_layer(middleware::from_fn_with_state(
             state.clone(),
             middlewares::token::authentication_token,
         ))
         .merge(users::router_post(state.clone()))
+        .merge(secrets::router())
         .merge(authentication::router_refresh_token(state.clone()))
         .merge(authentication::router_sign_in(state.clone()))
         .layer(CorsLayer::permissive())

@@ -33,9 +33,7 @@ const onSubmit = handleSubmit((value) => {
     completed_at: undefined
   }
   if (props.todo?.completed_at != undefined || value.isCompleted != undefined) {
-    newTodo.completed_at = dayjs(props.todo?.completed_at)
-      .add(-1, 'hours')
-      .format('YYYY-MM-DDTHH:mm:ss')
+    newTodo.completed_at = dayjs(props.todo?.completed_at).format('YYYY-MM-DDTHH:mm:ss')
     console.log(newTodo.completed_at)
   }
   props.onSaved(newTodo)

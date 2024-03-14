@@ -18,11 +18,15 @@ pub struct Secret {
 
 pub async fn authentication_secret<B>(
     State(state): State<AppState>,
-    auth: TypedHeader<Authorization<Bearer>>,
+    //auth: TypedHeader<Authorization<Bearer>>,
     request: Request<B>,
     next: Next<B>,
 ) -> Response {
-    let token: &str = auth.token();
+    //let token: &str = auth.token();
+    dotenvy::dotenv().ok();
+    let client_id = std::env::var("CLIENT_ID").expect("CLIENT_ID not found");
+    let secret = std::env::var("SECRET").expect("SECRET not found");
+    let token = format!("{client_id}:{secret}");
     if token.is_empty() {
         return StatusCode::UNAUTHORIZED.into_response();
     }

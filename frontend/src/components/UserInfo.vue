@@ -83,7 +83,7 @@ getAllTodos(props.id, session.token!.token).then((d) => (todosData.value = d))
 
   <div class="flex my-5">
     <fwb-heading tag="h3" class="font-bold leading-normal text-neutral-900">
-      Here's your todos!
+      Here's your to-do's!
     </fwb-heading>
     <fwb-button
       @click="openNewTodoModal"
