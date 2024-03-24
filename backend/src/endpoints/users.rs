@@ -155,14 +155,19 @@ pub async fn patch(
         return StatusCode::NOT_FOUND.into_response();
     }
     let result = result.unwrap();
-    let password = payload.password.unwrap_or(result.password);
-    let mut encoded_password = Sha512::new();
-    encoded_password.update(password);
+    let final_password;
+    if let Some(password) = payload.password {
+        let mut encoded_password = Sha512::new();
+        encoded_password.update(password);
+        final_password = format!("{:x}", encoded_password.finalize());
+    } else {
+        final_password = result.password;
+    }
     sqlx::query!(
         "update user set name = ?, email = ?, password = ? where id = ?",
         payload.name.unwrap_or(result.name),
         payload.email.unwrap_or(result.email),
-        format!("{:x}", encoded_password.finalize()),
+        final_password,
         id
     )
     .execute(&state.pool)

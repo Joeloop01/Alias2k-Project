@@ -72,16 +72,15 @@ getAllTodos(props.id, session.token!.token).then((d) => (todosData.value = d))
       src="./icons/image_placeholder.png"
       alt="placeholder"
       name="placeholder"
-      class="w-20 m-5 mr-10 rounded-full shadow-xl ring-2 ring-primary-600"
+      class="hidden w-20 m-5 mr-10 rounded-full shadow-xl ring-2 ring-primary-600 md:block"
     />
-    <div class="flex-col my-auto">
-      <fwb-heading tag="h2" class="font-bold text-neutral-900">
-        Hi, {{ userData?.name }}
-      </fwb-heading>
-    </div>
+
+    <fwb-heading tag="h2" class="overflow-hidden font-bold text-neutral-900 text-ellipsis">
+      Hi, {{ userData?.name }}
+    </fwb-heading>
   </div>
 
-  <div class="flex my-5">
+  <div class="flex gap-2 my-5">
     <fwb-heading tag="h3" class="font-bold leading-normal text-neutral-900">
       Here's your to-do's!
     </fwb-heading>
