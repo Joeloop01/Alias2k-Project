@@ -5,6 +5,7 @@ use axum::response::{IntoResponse, Response};
 use chrono::NaiveDateTime;
 use headers::authorization::Bearer;
 use headers::Authorization;
+use sha2::{Digest, Sha512};
 
 use crate::AppState;
 
@@ -26,6 +27,10 @@ pub async fn authentication_secret<B>(
     dotenvy::dotenv().ok();
     let client_id = std::env::var("CLIENT_ID").expect("CLIENT_ID not found");
     let secret = std::env::var("SECRET").expect("SECRET not found");
+    let mut hasher = Sha512::new();
+    hasher.update(secret);
+    let result = hasher.finalize();
+    let secret = format!("{:x}", result);
     let token = format!("{client_id}:{secret}");
     if token.is_empty() {
         return StatusCode::UNAUTHORIZED.into_response();

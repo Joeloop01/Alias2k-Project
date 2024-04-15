@@ -62,8 +62,9 @@ pub async fn post(
     State(state): State<AppState>,
     Json(payload): Json<NewSecret>,
 ) -> impl IntoResponse {
+    let secret = Uuid::new_v4();
     let mut hasher = Sha512::new();
-    hasher.update(Uuid::new_v4());
+    hasher.update(secret.to_string());
     let result = hasher.finalize();
     sqlx::query!(
         "INSERT INTO secret (secret, description, expired_at) VALUES (?,?,?)",

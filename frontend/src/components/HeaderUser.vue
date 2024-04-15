@@ -49,7 +49,7 @@ function onLogout() {
         v-if="showButton"
         class="absolute right-0 z-10 my-16 mr-0 border divide-y rounded-lg shadow bg-neutral-100 divide-neutral-900 md:-top-3 md:my-20 w-44 border-neutral-900"
       >
-        <div class="px-4 py-3 text-sm text-neutral-900">
+        <div class="px-4 py-3 text-sm text-neutral-900 overflow-hidden text-ellipsis">
           <p>
             <span>{{ user?.name }}</span>
             <span v-if="user?.admin == 1"> (admin)</span>
